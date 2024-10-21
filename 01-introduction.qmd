@@ -1,0 +1,156 @@
+---
+title: "Using RStudio in the cloud"
+---
+
+::: callout
+This lesson is designed to be run on posit.cloud in a workshop situation, but there is no reason it can't be completed using [RStudio Desktop](https://posit.co/download/rstudio-desktop/) if you are familiar with it. The lessons would need to be [downloaded from Github](https://github.com/utdata/utdata-intro2r) and packages installed, but directions for that are beyond the scope of this lesson.
+:::
+
+## Reading these lessons
+
+These lessons are written using Markdown in Quarto notebooks, so you may be directly reading the code. Most everything will look like text and be perfectly readable, but some constructions may be new to you. So some quick tips.
+
+- Text that starts with a dash or asterisk is part of list, and it is information for you to consume.
+- You might see formatting that starts and ends with tick marks like this: `variable_name`. This is a way to designate code or a file name within Markdown prose. If you are asked to use a value in some way, don't include the tick marks.
+- You might also see links to web pages like this: [tidyverse](https://www.tidyverse.org/).
+- You'll see lots of other Markdown syntax like headlines that hopefully will make sense over time.
+
+If you see items in an ordered list that start with numbers, that is an indication YOU SHOULD DO WHAT IT SAYS.
+
+1. An item like this is a direction. Do what it says.
+2. This would be another direction.
+
+## The story so far ...
+
+We are assuming at this point that you have ALREADY done these things:
+
+- Using a web browser signed up and logged into [posit.cloud](https://posit.cloud/)
+- You've used the **New Project** button to choose **New Project from Git Repository** ...
+- .. and that you opened this repo: utdata/utdata-intro2r.
+- Once loaded, you opened this file, called `01-rstudio.qmd`.
+
+If all that is true, then you are running a "virtual machine" in your browser that has R and RStudio installed, and you have a "project" open, and in that project you reading this file.
+
+## Part One: Getting familiar with RStudio
+
+RStudio is your dashboard for writing R code. Open files will show up in the upper-left quadrant of RStudio.
+
+The upper-right quadrant has several tabs, the first of which is **environment**: if you store any information in objects (such as a table of data), they will show up there.
+
+The lower-right quadrant also has several tabs, the first of which is Files: it shows what files exist in your current working directory, which is this workshop folder. Among those files are ones that end with `.qmd`, which are Quarto files we will edit. Once opened, they appear in the upper-left quadrant.
+
+In the lower-left, you'll see the **Console**. This will reflect all the R code you run, but we don't do much with it when we're working in Quarto files.
+
+We encourage the use of **Quarto Document** files (.qmd), which enable you to both write comments (like these sentences) and to write code, in what we call a **code chunk**.
+
+> When you see a numbered list item like the one below, these are directions for you follow. So do what is says!
+
+1. In the code chunk below you'll see a right-pointing green arrow at the top-right of the chunk. Click on that arrow and you'll "run" all the code inside the chunk.
+
+```{r}
+x <- "Hello, World!"
+
+print(x)
+```
+
+In Quarto files, the results of the code in each code chunk will print below the chunk, allowing you to quickly see the results of your work. This allows us to intersperse our prose notes and explanations in between our code. The merits of this will hopefully become apparent as we work on this throughout the day.
+
+You create a code chunk by typing `ctrl+alt+i` (`cmd+option+i` on a Mac) and you write your `code` in between the first and last lines of the code chunk. All your comments, questions, thoughts, and notes are written outside of the code chunks. The comments outside of code chunks use Markdown for formatting. Markdown is a documentation language that reads well as text but converts easily to HTML and other outputs. If you don't know it, don't worry about it for now ... it's really just text.
+
+## Part Two: Terminology
+
+Some important terminology has come up already:
+
+-   **Notebook**: a certain type of R file that allows us to write text and code together in the same document. We are using Quarto Documents, which are a kind of notebook.
+-   **code chunk**: created by typing `ctrl+alt+i` (`cmd+option+i` on a Mac), type your code inside code chunks.
+-   **environment**: this is basically your workspace memory for every R session. It's empty until you start storing information in objects.
+-   **objects** and **variables**: While technically different things, we'll use the term **object** and **variable** interchangeably. An **object** is something stored into memory within an R session. Objects can be data, functions or anything we can reference later. A **variable** is the name we give that object. Think of variables like nametags and objects like the actual items they're describing. Again, for now you can consider them the same.
+
+For example, the following code stores the word "spaghetti" into an object named "x", using the assignment operator `<-`, and then prints the contents of that object to the console below the code chunk.
+
+1. Use the green run arrow to run the code chunk below.
+
+```{r}
+x <- "spaghetti"
+
+print(x)
+```
+
+You can also use keyboard commands to run code: `ctrl+Enter` (or `cmd-Return` on a Mac) will run a line of code you are on or have selected. `ctrl+Shift+Enter` (or `cmd-Shift-Return` on Mac) will run all the code within a chunk.
+
+In the example above, "spaghetti" is a string of text, or characters. You can also store numbers in objects (which do not require double quotes):
+
+```{r}
+y <- 3
+```
+
+::: callout
+While you can name variables whatever you want, there are some rules and conventions:
+
+- You can't start a variable name with a number.
+- Variables names have to be a single unit with no spaces. Convention is to use and underscore `_` to separate terms in a name.
+- Use short variable names that describe what the object represents. Don't be generic. Use `ages` not `my_var`.
+:::
+
+-   **data types**:
+    -   character <chr>: commonly referred to as a string; can be letters, numbers, punctuation, etc. Always enclosed in "double quotes".
+    -   integer <int>: a whole number, such as `1`, `5`, `10000`. No decimal places.
+    -   numeric <dbl>: a number that can have decimal places, such as `5.2` or `100.37`
+    -   date <date>: real dates understand things like months and weekdays.
+    -   logical <lgl>: either `TRUE` or `FALSE` (not quoted)
+    -   there are some other data types we won't get into today.
+-   **vector**: this is a common feature of R that you will use regularly. A vector is a series of values. Vectors can only store elements of the same data type, for example all strings or all numbers, and are created with the `c()` **function**:
+
+```{r}
+food_list <- c("spagetti sauce", "noodles", "parmesan")
+numbs <- c(1,2,3)
+
+food_list
+numbs
+```
+
+-   **function**: these are the action verbs of programming. (Not just in R, but also spreadsheets, database managers and other programming languages). Every function has a particular structure and does a particular thing. The structure is: `function_name(arguments)`. For example, the `sum()` function works in R the same way it works in other programs.
+
+1. Use the green arrow to run the chunk below and see the sum of x and y.
+
+```{r}
+a <- 1
+b <- 2
+sum(a,b)
+```
+
+-   **package**: a set of features and functions that are not a part of base R, but that you can add to R to increase its functionality. You install packages once by using the `install.packages()` function. Then every time you want to use a package (such as tidyverse) in your file, you load it into your environment using the `library()` function. All the necessary packages for this class have already been installed.
+-   **pipe**: a pipe moves information from one function to the next. There are two ways to write a pipe (long story) but they work the same: `|>` or `%>%`. A shortcut for typing it is `ctrl+shift+m` (`cmd+option+m` on a Mac).
+
+1. Run the code chunk below to show how to use the `typeof()` function to find the data type of "x". The second line does the same thing, but it is moving our object **food_list** into the function using using the pipe.
+
+```{r}
+typeof(food_list)
+
+food_list |> typeof()
+```
+
+## Part Three: The key to understanding programming...
+
+The key to understanding a programming language like R is to understand how **information is passed around**. For the sake of this class, let's refer to information as **data**, although it won't always be tabular. Data can be stored in an object or printed to the **console** (which is directly below a code chunk in R Notebooks). Data stored in an object shows up in the environment, and can be referred to later in your script.
+
+Additionally, data can be passed (or **piped**) through functions that filter, sort, aggregate, and/or mutate it in some way. But it will always end up either printing to the console or being stored in a variable.
+
+## Part Four: Coming together with Quarto
+
+As we've discussed and you've seen within this document, we can mix together writing and explanation in our Quarto document. This allows us to publish our work as a repeatable, annotated document as HTML. To do this, we **render** our documents.
+
+1. Click on the **Render** button at the top-center of your Quarto document, or use `cntl+Shift+k` (`cmd+Shift+k` on a Mac), to turn your document into HTML.
+
+This will open a web page either within RStudio's "Viewer" pane, or in a separate web browser window. Look through this page and compare how your text and code looks in your Quarto document vs what is displayed on the web page.
+
+(If you got an error when you rendered, raise your hand so someone can help troubleshoot it.)
+
+You can use Quarto and Markdown to create websites, books, slideshows and more.
+
+Let's learn some more code. Save and close this document, then open the `02-tidyverse.qmd` file.
+
+
+
+
+

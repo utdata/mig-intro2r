@@ -1,0 +1,42 @@
+---
+title: "Intro to R for Storytelling"
+author: "Media Innovation Group"
+format: revealjs
+---
+
+# Welcome
+
+Grab a bagel and some coffee
+
+---
+
+:::: {.columns}
+
+::: {.column width="50%"}
+1.
+
+![Log In/Sign Up to posit.cloud](../images/posit-cloud.svg)
+
+:::
+
+::: {.column width="50%"}
+2.
+
+![Under New Project, choose Github](../images/new-proj-github.png)
+:::
+
+
+::: {.column width="30%"}
+
+:::
+
+::::
+
+Go type in this path: utdata/utdata-intro2r
+
+# Part 1
+
+## About R & RStudio
+
+## About posit.cloud
+

@@ -1,0 +1,128 @@
+---
+title: "Data prep"
+---
+
+Here we put the national babynames data together into a single file and export it.
+
+I use the [here package](https://here.r-lib.org/) to [deal with](https://github.com/jennybc/here_here) related paths.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+library(here)
+
+here::i_am("resources/data-prep.qmd")
+```
+
+## Import the data
+
+First we get the list of file names from the data directory.
+
+```{r}
+#| label: import-list
+#| message: false
+
+names_list <- list.files(
+  here("data/names"),
+  pattern = "*txt",
+  full.names = T
+)
+
+names_list <- names_list
+```
+
+Put the files together using map():
+
+```{r}
+#| label: import-names
+#| message: false
+
+names_raw <- names_list |>
+  set_names(basename) |>
+  map(
+    read_csv,
+    col_names = c("name", "sex", "n"),
+  ) |> 
+  list_rbind(names_to = "source")
+
+names_raw |> glimpse()
+```
+## Create year
+
+Create the year from the source.
+
+```{r}
+names_clean <- names_raw |>
+  mutate(
+    year = parse_number(source), .after = source,
+    n = n |> as.integer()
+  ) |> 
+  select(year, sex, name, n)
+
+names_clean |> glimpse()
+```
+
+## Create prop
+
+### Join with applicants
+
+We'll bring in the total number of names from the applicants data, joining on year and sex.
+
+```{r}
+applicants <- read_rds(here("data", "applicants.rds"))
+
+bn_joined <- names_clean |> 
+  left_join(applicants, by = join_by(year, sex))
+
+bn_joined  
+```
+
+### Create prop
+
+Now we use mutate to create the proportion of names within the year.
+
+```{r}
+bn_prop <- bn_joined |> 
+  mutate(
+    prop = (n / total) |> round_half_up(4)
+  ) |> 
+  select(-total) |> 
+  arrange(year, sex, prop |> desc())
+
+bn_prop
+```
+
+## Export
+
+Export this to the data folder.
+
+```{r}
+bn_prop |> write_rds(here("data", "babynames.rds"))
+```
+
+
+## Comparison
+
+Compare to the babyname data. We don't have the prop (proportion) column, which is fine because we want to build it as part of the lesson.
+
+```{r}
+bn_prop |> glimpse()
+babynames::babynames |> glimpse()
+
+```
+
+## Ranks
+
+If we wanted to add rank we could do this, but that makes the file larger than 100MB which Github doesn't like.
+
+```{r}
+bn_rank <- bn_prop |> 
+  group_by(year, sex) |>
+  mutate(rank = min_rank(desc(prop)))
+
+bn_rank
+```

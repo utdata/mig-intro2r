@@ -1,0 +1,86 @@
+---
+title: "Scrape SS Applications"
+---
+
+Here we web scrape a table from a Social Security Administration website to get the number of applications for names each year.
+
+The resulting table is saved to the `data/` directory.
+
+## Setup
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+library(rvest)
+library(here)
+```
+
+The [rvest](https://rvest.tidyverse.org/) library allows for the scraping functions.
+
+I'm using the [here](https://here.r-lib.org/) library which allows me to write paths based on the working directory instead of a relative file location.
+
+## Get the html
+
+```{r}
+html_raw <- read_html("https://www.ssa.gov/oact/babynames/numberUSbirths.html")
+```
+
+## Pluck out the table
+
+The html_table function pulls all the tables from the page and puts them into an R list, even if there is only one table.
+
+We have to pluck our 1 table from the list to get a tibble.
+
+```{r}
+all_tables <- html_raw |> html_table()
+
+ssn_apps_raw <- all_tables[[1]]
+```
+
+## Clean the table
+
+```{r}
+ssn_apps_data <- ssn_apps_raw |>
+  clean_names() |> # clean col names
+  mutate(
+    across(2:4, parse_number),
+    year_of_birth = as.numeric(year_of_birth) 
+  ) |> 
+  rename(year = year_of_birth)
+  
+  
+ssn_apps_data
+```
+
+## Pivot version
+
+```{r}
+ssn_apps_long <- ssn_apps_data |> 
+  select(-total) |> 
+  pivot_longer(
+    male:female,
+    names_to = "sex",
+    values_to = "total"
+  ) |> 
+  mutate(sex = case_match(
+    sex,
+    "male" ~ "M",
+    "female" ~ "F"
+  ))
+
+ssn_apps_long |> head()  
+```
+
+
+## Export the data
+
+Writing the data out to the data folder.
+
+```{r}
+ssn_apps_long |> write_rds(here("data", "applicants.rds"))
+```
+

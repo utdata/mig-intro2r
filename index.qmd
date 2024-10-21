@@ -1,0 +1,51 @@
+---
+title: "Introduction to R for Storytelling"
+---
+
+Welcome to this three-hour workshop where you'll be introduced to the basics of the data science language R and some tools to use it to find and tell stories.
+
+In this workshop we'll explore the popularity 
+
+
+- Go to [posit.cloud](https://posit.cloud/), which is an online version of R & RStudio, the tools we'll use in this workshop.
+- If you don't already have an account, use the **Sign up** or **Get Started** options to create a new account. If you already have an account for any reason, go ahead and log in.
+
+> This will update
+
+1. Getting started with posit.cloud
+2: Importing data
+3: Arrange, select and filter
+4: Summarize
+6: Visualization
+7: Publishing
+
+## Possible data sources:
+
+- daily weather summaries
+- babynames https://www.ssa.gov/oact/babynames/limits.html
+    - nationwide by year
+    - by state
+- starwars
+
+### Babynames
+
+I need quests in all of these.
+
+- import & peek
+  - start with one file.
+  - show the power of code by importing all the files.
+- head, glimpse, summary
+- sort & suss
+  - arrange for most pop all time
+  - filter for most pop in year
+- mutate
+  - create a rate and rank?
+- summarize
+  - count if not already
+  - gsa
+- charts based on Olga thing.
+
+### Starwars
+
+Can I do this with starwars?
+

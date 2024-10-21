@@ -1,0 +1,22 @@
+project:
+  type: website
+  output-dir: docs
+  render: 
+    - 01-introduction.qmd
+
+website:
+  title: "Intro to R"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    df-print: paged
+
+
+

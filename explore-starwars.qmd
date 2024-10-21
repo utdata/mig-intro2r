@@ -1,0 +1,17 @@
+---
+title: "Explore Star Wars"
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+starwars
+```
+
+```{r}
+starwars |> glimpse()
+```
+
