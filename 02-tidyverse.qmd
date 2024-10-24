@@ -2,9 +2,6 @@
 title: "Tidyverse and baby names"
 ---
 
-> I might consider changing back times_given to n.
-
-
 In this notebook we'll learn about how  [tidyverse](https://www.tidyverse.org/) functions help use suss through data.
 
 Along the way, we'll explore the names given to babies since 1880, based on data from the Social Security Administration.
@@ -244,7 +241,7 @@ Within our babynames data, we have the number of times a name was given to a per
 ```{r}
 babynames |> 
   summarize(
-    total_names_given = sum(n)
+    total_names_given = sum(times_given)
   )
 ```
 
@@ -265,7 +262,7 @@ Let's show and example.
 ```{r}
 babynames |> 
   group_by(name) |> 
-  summarize(total_given = sum(n)) |> 
+  summarize(total_given = sum(times_given)) |> 
   arrange(desc(total_given))
 ```
 
@@ -276,7 +273,7 @@ We can group by more than one value before we summarize. Here let's find the mos
 ```{r}
 babynames |> 
   group_by(name, sex) |> 
-  summarize(total_given = sum(n)) |> 
+  summarize(total_given = sum(times_given)) |> 
   arrange(desc(total_given)) |> 
   filter(sex == "F")
 ```
@@ -303,3 +300,8 @@ babynames |>
 ```
 
 
+## Render your page
+
+Click on the Render button at the top of the document to see an HTML version of your document. All the code on the page has to work for this to happen, so if you get an error look at the message in the console and try to figure out what might be wrong. If you are in a workshop, raise your hand for some help.
+
+Depending on time, we might try publishing our website to quartopub.com.

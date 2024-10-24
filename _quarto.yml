@@ -3,6 +3,8 @@ project:
   output-dir: docs
   render: 
     - 01-introduction.qmd
+    - 02-tidyverse.qmd
+    - 03-visualizations.qmd
 
 website:
   title: "Intro to R"
@@ -10,6 +12,9 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - 01-introduction.qmd
+      - 02-tidyverse.qmd
+      - 03-visualizations.qmd
 
 format:
   html:

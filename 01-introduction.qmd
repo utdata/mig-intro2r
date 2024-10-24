@@ -151,6 +151,3 @@ You can use Quarto and Markdown to create websites, books, slideshows and more.
 Let's learn some more code. Save and close this document, then open the `02-tidyverse.qmd` file.
 
 
-
-
-

@@ -4,11 +4,27 @@ title: "Visualizations"
 
 > THIS IS FAR FROM FINISHED
 
-> Add Intro stuff
+Now let's it's time to really SEE our data. We will explore a tidyverse package called [ggplot2](https://ggplot2.tidyverse.org/), though we just say "ggplot" without the 2. It is a series of functions that allows you to crate any chart you want - just like how you can combine different ingredients to make different meals. Instead of just picking from pre-made chart types like pie or bar charts, you build your visualization in layers by choosing what data to show, how to represent it (like with points, lines, or bars), and how to arrange everything on the canvas. Think of it like LEGO bricks - you can combine simple pieces (like marks, scales, and coordinates) in different ways to create exactly the chart you need to tell your data's story."
+
+The package ggplot2 is quite extensive, allowing us to create a number of visualizations with tremendous flexibility and customization. We will just touch the surface of what it can do, but there are other great resources to learn more about what it can do:
+
+- [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/index.html)
+- [ggplot2tor](https://ggplot2tor.com/)
+- [R Graph Gallery](https://r-graph-gallery.com/)
+
+## Examples
+
+Here are some example charts to show how different they can be ..
+
+![](images/ggplot_example_01.png)
+![](images/ggplot_example_02.png)
+![](images/ggplot_example_03.png)
 
 ## Setup
 
-We need all this stuff to get started.
+At the end of our last lesson we "Rendered" our page into HTML so you can share your analysis with others. Each Quarto document needs to run independently to render, so each notebook must have the code to load the libraries and data it needs.
+
+That's what this next chunk is. We are loading some libraries and importing our data again.
 
 ```{r}
 #| label: setup
@@ -19,196 +35,423 @@ library(tidyverse)
 library(janitor)
 library(scales)
 
-babynames <-  read_rds("data/babynames_ranked.rds")
+babynames <-  read_rds("data/babynames.rds") |> rename(times_given = n)
+
+babynames |> glimpse()
 ```
 
-## What is ggplot2?
+## Bar/column chart
 
-The package ggplot2 allows us to create a number of visualizations with tremendous flexibility and customization.  Because it is open source, its capabilities are expanded all the time by a community around the world.
+Trying to directly chart 2 million rows of data isn't very effective, so we usually summarize our data using the techniques from our last lesson.
 
-### ggplot examples
+### Summarizing our top 5
 
-![](images/ggplot_example_01.png)
-![](images/ggplot_example_02.png)
-![](images/ggplot_example_03.png)
+In this case, we will take the five most popular names from 2023, and plot them as a bar chart. We'll start by getting our data ready.
 
-## Making a bar chart
-
-For this first chart, let's make a bar chart.
-
-We'll start by getting our data ready.
-
+This next code block starts with the `babynames` data, filters it to just 2023, and the "slices" it to get the five highest values in the `times_given` column. It is then sorted by sex. The result of all that was saved into a new object called `top_5_data`, which is what we'll plot.
 
 ```{r}
-bar_chart_data <- babynames |>
+top_5_data <- babynames |>
   filter(year == 2023) |>
-  slice_max(n, n = 5) |>
+  slice_max(times_given, n = 5) |>
   arrange(sex)
 
-bar_chart_data
+top_5_data
 ```
 
-Now we want to make a plot.
+
+
+::: callout
+
+### Building a chart in layers
+
+Usually when we build a chart, we would keep adding our layers into a **SINGLE** code chunk, rerunning the code with each addition to make sure the changes work the way we want. In this exercise, we are creating new code chunks so you can see the difference between each layer as we add it.
+
+Also, with this first chart we are going to do a LOT of modifications, more than you might need just so see your data. But the idea is to show you the kinds of things that you can change, and how.
+:::
+
+
+### The canvas
 
 First, let's create a blank canvas
 
 ```{r}
-bar_chart_data %>% ggplot()
+top_5_data |> ggplot()
 ```
 
-Now let's add x and y dimensions to our canvas.
+This doesn't show us much, but be patient.
+
+### Aesthetics
+
+Beyond our data, the next thing our chart needs is which data to use to build it's x and y axis. In our case, we want our names to go along the bottom (the x axis) and the number of times that name was given along the y axis.
+
+Each time we want to pull from our data to use in our chart, we have to reference it through a function called `aes()`, which is short for aesthetics. It's called "aesthetic" because it deals with how things look and how we perceive them - just like how art is about the aesthetics of color, shape, and form.
+
 ```{r}
-bar_chart_data %>% ggplot(aes(x = name, y = n)) 
+top_5_data |> ggplot(aes(x = name, y = times_given)) 
 ```
 
-Now we need to add something called a 'geom'. This determines what kind of chart will get added to our canvas.
+This adds the axis names, but it doesn't show anything on the chart yet because there are soooo many different ways we could do that. We need to specify what shape to use.
+
+### Geoms
+
+To paint our data onto our canvas, we need to describe the shape or "geometry" that we want to see. There are many choices, and the functions always start with `geom_`. The geoms determine what kind of chart will get added to our canvas.
+
+Here we will add a geom to make a column chart. When we add a layer onto our chart, we use the `+` sign at the end of a line, then the new layer.
+
 ```{r}
-bar_chart_data %>% ggplot(aes(x = name, y = n)) +
+top_5_data |> ggplot(aes(x = name, y = times_given)) +
   geom_col()
 
 ```
 
-This is not really how we want this to look. First, let's order the bars by n.
+OK, we are getting somewhere, but this is not really how we want this to look.
+
+### Reorder bars
+
+First, let's order the bars by the `times_given`. We've also reorganized our code a little bit because with more options, it gets hard to read. By breaking it up into multiple lines, it's easier to see what's going on.
 
 ```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n)) +
+top_5_data |> ggplot(aes(
+    x = reorder(name,desc(times_given)), # edits to reorder the bars
+    y = times_given
+  )) +
   geom_col()
 ```
 
 That's getting a bit better, but that color is hideous!
 
+### Setting a color
+
 In R, we can use a selection of named colors, or any hex value.
 
 ```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n)) +
-  geom_col(fill = "cadetblue", alpha = .8)
+top_5_data |> ggplot(aes(
+    x = reorder(name,desc(times_given)),
+    y = times_given
+  )) +
+  geom_col(fill = "cadetblue", alpha = .8) # arguments set colors and transparency
 ```
 
 Looking better, but I don't love the y-axis. Let's add commas to the tick mark labels.
 
+### Formatting the y-axis
+
+We can use a function `scale_y_continuous` to make adjustments to this y-axes, adding commas to the numbers using the label argument and a function from the `scales` package called `label_comma()`. 
+
 ```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n)) +
+top_5_data |> ggplot(aes(
+    x = reorder(name,desc(times_given)),
+    y = times_given
+  )) +
   geom_col(fill = "cadetblue", alpha = .8) +
-  scale_y_continuous(labels = label_comma())
+  scale_y_continuous(labels = label_comma()) # edits y numbers to add commas
 ```
+
+If that seems a bit esoteric, you are right. I did NOT know that from the top of my head, I had to look it up. You can change anything you want on a ggplot chart if you know the proper function, but there are a ton of them. I'll often consult the [ggplot2 cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf), the [ggplot book](https://ggplot2-book.org/index.html) or the [ggplot2tor apps](https://ggplot2tor.com/apps) to find function names.
+
+### Adding labels and a title
 
 Now let's get rid of that ugly background, those axis labels, and add a title to our chart.
 
-```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n)) +
-  geom_col(fill = "cadetblue", alpha = .8) +
-  scale_y_continuous(labels = label_comma()) +
-  labs(title = "The 10 most common baby names in 2023", subtitle = "None of these are Heaven spelled backwards.") +
-  theme_minimal() +
-  theme(axis.title = element_blank())
-```
-
-We can even layer geoms.
+We've added a function called `labs()` that allows us to add and modify much of the text on a chart. We've added a title and subtitle to our chart, and we've set our x and y axis labels to be blank by setting them to an empty string.
 
 ```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n)) +
+top_5_data |> ggplot(aes(
+    x = reorder(name,desc(times_given)),
+    y = times_given
+  )) +
   geom_col(fill = "cadetblue", alpha = .8) +
   scale_y_continuous(labels = label_comma()) +
-  labs(title = "The 10 most common baby names in 2023", subtitle = "None of these are Heaven spelled backwards.", caption = "Source: Social Security Administration\nby Olga Pierce") +
-  theme_minimal() +
-  theme(axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) +
-geom_text(aes(label = comma(n)), vjust = -0.5)
+  # labs add or adjusts text items
+  labs(
+    title = "The 10 most common baby names in 2023",
+    subtitle = "None of these are Heaven spelled backwards.",
+    x = "", y = "",
+    caption = "Source: Social Security Administration\nby Christian McDonald"
+  )
 ```
+
+### Adding geoms
+
+We can add text to our chart using the `geom_text()` function. In that function We've added a label argument so it plots the `times_given` values onto the chart as text. Note that because we are pulling from our data to get the `times_given`, we have to use an `aes()` function to get it on our chart. It's placing the text right where the data would plot, so at the end of the existing bar on the chart.
+
+But we also added the `vjust` argument that tells the function to adjust the vertical position of the text up or down. Since this value of "2" isn't coming from the data, this argument is outside the `aes()` function.
+
+1. Try adjusting the `vjust = 2` value to another number like "3" or "-1" to see what it does. Then put it back. ;-).
+
+```{r}
+top_5_data |> 
+  ggplot(aes(x = reorder(name,desc(times_given)),
+                         y = times_given)) +
+  geom_col(fill = "cadetblue", alpha = .8) +
+  scale_y_continuous(labels = label_comma()) +
+  labs(
+    title = "The 10 most common baby names in 2023",
+    subtitle = "None of these are Heaven spelled backwards.",
+    x = "", y = "",
+    caption = "Source: Social Security Administration\nby Christian McDonald"
+  ) +
+  geom_text(aes(label = comma(times_given)), vjust = 2) # plots the times_given values as text
+```
+
+This is looking pretty good, but now we have labels both on the axis and the bars, and we don't need both. We also could clean this up by removing the background.
+
+### Themes
+
+Themes are basically a combination of pre-set functions that control the look of a chart. Ggplot has several [built-in themes](https://ggplot2.tidyverse.org/reference/ggtheme.html) and the one we add below is `theme_minmal`, which removes the background grid and other elements.
+
+```{r}
+top_5_data |> 
+  ggplot(aes(x = reorder(name,desc(times_given)),
+                         y = times_given)) +
+  geom_col(fill = "cadetblue", alpha = .8) +
+  scale_y_continuous(labels = label_comma()) +
+  labs(
+    title = "The 10 most common baby names in 2023",
+    subtitle = "None of these are Heaven spelled backwards.",
+    x = "", y = "",
+    caption = "Source: Social Security Administration\nby Christian McDonald"
+  ) +
+  geom_text(aes(label = comma(times_given)), vjust = 2) +
+  theme_minimal() # changes the theme
+```
+
+And that indeed helped us a bit, but I'd like to get rid of the gridlines an axis measurements. We can do that with the `theme()` function, but again we have to look up the arguments to know what to set them to. I used this [ggplot2tor theme finder](https://ggplot2tor.com/theme) to find them.
+
+```{r}
+top_5_data |> 
+  ggplot(aes(x = reorder(name,desc(times_given)),
+                         y = times_given)) +
+  geom_col(fill = "cadetblue", alpha = .8) +
+  scale_y_continuous(labels = label_comma()) +
+  labs(
+    title = "The 10 most common baby names in 2023",
+    subtitle = "None of these are Heaven spelled backwards.",
+    x = "", y = "",
+    caption = "Source: Social Security Administration\nby Christian McDonald"
+  ) +
+  geom_text(aes(label = comma(times_given)), vjust = 2) +
+  theme_minimal() +
+  # the stuff below removes grid lines, etc.
+  theme(
+    axis.text.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+OK, that's looking pretty good. But what if we want to color.
+
+### Manual colors
 
 Some of these are characterized as male names and some as female.  What if we want to color code them?
 
+In our global `aes()` function we can pull from our data to code the bars based on sex. We've added `fill = sex` as noted in comments below.
+
 ```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n, fill = sex)) +
+top_5_data |> ggplot(aes(
+    x = reorder(name,desc(times_given)),
+    y = times_given,
+    fill = sex # added fill here
+  )) +
   geom_col(alpha = .8) +
   scale_y_continuous(labels = label_comma()) +
-  labs(title = "The 10 most common baby names in 2023", subtitle = "None of these are Heaven spelled backwards.", caption = "Source: Social Security Administration\nby Olga Pierce") +
+  labs(
+    title = "The 10 most common baby names in 2023",
+    subtitle = "None of these are Heaven spelled backwards.",
+    x = "", y = "",
+    caption = "Source: Social Security Administration\nby Christian McDonald"
+  ) +
+  geom_text(aes(label = comma(times_given)), vjust = 2) +
   theme_minimal() +
-  theme(axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) +
-geom_text(aes(label = comma(n)), vjust = -0.5)
+  theme(
+    axis.text.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
 ```
 
-Those colors are kinda problematic, let's pick our own.
+Not bad, but these colors are kinda problematic, let's pick our own. Again, we might have to do some research to figure out how, searching in [ggplot book](https://ggplot2-book.org/scales-colour.html#sec-manual-colour) or the [ggplot2tor scale finder](https://ggplot2tor.com/scales)
+
+- We're adding a `scale_fill_manual()` function to set the colors of the bars.
+- We're adding an argument in `labs()` to change/capitalize the title of the legend.
+
 ```{r}
-bar_chart_data %>% ggplot(aes(x = reorder(name,desc(n)), y = n, fill = sex)) +
+top_5_data |> ggplot(aes(
+    x = reorder(name,desc(times_given)),
+    y = times_given,
+    fill = sex # added fill here
+  )) +
   geom_col(alpha = .8) +
   scale_y_continuous(labels = label_comma()) +
-  labs(title = "The 10 most common baby names in 2023", subtitle = "None of these are Heaven spelled backwards.", caption = "Source: Social Security Administration\nby Olga Pierce") +
+  labs(
+    title = "The 10 most common baby names in 2023",
+    subtitle = "None of these are Heaven spelled backwards.",
+    x = "", y = "",
+    caption = "Source: Social Security Administration\nby Christian McDonald",
+    fill = "Sex" # added to change legend title
+  ) +
+  geom_text(aes(label = comma(times_given)), vjust = 2) +
   theme_minimal() +
-  theme(axis.title = element_blank(),
-        axis.text.y = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) +
-geom_text(aes(label = comma(n)), vjust = -0.5) +
-scale_fill_manual(values=c("#756bb1", "#2ca25f"))
+  theme(
+    axis.text.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_fill_manual(values=c("#756bb1", "#2ca25f")) # changes color of bars
 ```
 
-Now you try: With a buddy, make your own super awesome bar chart
+### OYO: Make a bar chart
 
-> WHAT WOULD THEY POSSIBLY MAKE?
+With a buddy, make your own super awesome bar chart. Remember you'll first have to summarize your data to make it manageable.
+
+If you need an idea, I have one here for you. Below you'll find code that filters our data to find all the instances of our most popular male name from 2023, "Liam". You could plot the number of times this name has been given with x as the year and y as the number of times given.
+
+You might also change the name or sex value to get data for a different name.
 
 ```{r}
+oyo_col_data <- babynames |> 
+  filter(sex == "M", name == "Liam")
 
+oyo_col_data
 ```
 
-## Let's make a line chart
+Now that you have data, plot that into a column chart:
+
+```{r}
+oyo_col_data |> ggplot()
+```
+
+
+## Line chart
  
-First, we want to get the 10 girls' names.
+So far, we've been plotting one type of thing. But what if we want to see how the popularity of a name has changed over time? We can use a line chart to show that.
+
+### Prepping the data
+
+We'll need to figure out what those top names are and build our data set to include them. We're going to do this in two steps. First we need to find our most popular names and create a list of them to filter with.
+
+- We create a new object name because you have to have a bucket before you can fill it.
+- We start with our babynames data.
+- We filter it to just the year 2023 and for just females.
+- We slice the data to get the top 5 names by `times_given`.
+
+In the second step we can use the `pull()` function to pull out just the names from the data set. We save that, too, because it's what we'll use to filter our data.
 
 ```{r}
-line_chart_data <- babynames %>% filter(sex == "F" & name %in% c("Olive", "Betty", "Madison", "Nevaeh", "Stephanie"))
+top_fname_2023 <- babynames |> 
+  filter(year == 2023, sex == "F") |> 
+  slice_max(times_given, n = 5)
 
-line_chart_data
+top_fname_2023
+
+top_fname_2023_list <- top_fname_2023 |> pull(name)
+
+top_fname_2023_list
 ```
 
-Now we'll set up our canvas
+Now that we have a list of names, we'll use that to filter our original data to include rows just with those names.
+
+- Here we create our new data bucket, then fill it ...
+- We start with our original baby names data, but then we filter it to rows where the `name` is any value in our `top_names_2023` list. We also filter for just females because some names could also be given to males, which would muck up everything. (Don't they always? badumph!)
+
 ```{r}
-line_chart_data %>% ggplot(aes(x = year, y = prop))
+top_5f_years <- babynames |> 
+  filter(name %in% top_fname_2023_list, sex == "F")
+  
+top_5f_years
 ```
 
-And now we'll add lines
+### Start with canvas
+
+::: callout
+Again, normally we would build this chart step by step in the SAME code chunk, but we will create new ones here so you can see the differences in each step.
+:::
+
+We start by setting up our canvas, setting what data we want on the x and y axis.
+
 ```{r}
-line_chart_data %>% ggplot(aes(x = year, y = prop, color = name)) +
+top_5f_years |> ggplot(aes(x = year, y = prop))
+```
+
+And now we'll add lines and adjust our code to be more readable. There are a couple of parts to this:
+
+- `geom_line()` is the geom to add lines to the chart.
+- However if we only add geom_line the chart doesn't know to split the lines by name. We have to tell it to do that by adding `color = name` to the `aes()` function.
+- We've also added the minimal them just to look nicer.
+
+```{r}
+top_5f_years |> ggplot(aes(x = year, y = prop, color = name)) + # color added to separate the lines
+  geom_line() + # adds the lines
+  theme_minimal() # adjust the theme
+```
+
+### Cosmetic adjustments
+
+Now we can make some cosmetic changes to our chart. We're adding a lot here at once in the interest of time. Again, we would likely reference the ggplot book or ggplot2tor site to find the functions we need to make these changes.
+
+- We adjust the y axis to use % instead of fractions
+- We adjust the frequency of the grid lines on the x axis
+- In our labs we add basic titles and adjust the axis labels
+
+
+```{r}
+top_5f_years |> ggplot(aes(x = year, y = prop, color = name)) +
   geom_line() +
-  theme_minimal()
-```
-
-Let's do some cosmetic changes
-```{r}
-line_chart_data %>% ggplot(aes(x = year, y = prop, color = name)) +
-  geom_line() +
-  scale_y_continuous(labels = scales::percent) +
-  scale_x_continuous(breaks = seq(1900,2023,10)) +
+  scale_y_continuous(labels = scales::percent) + # % in y axis
+  scale_x_continuous(breaks = seq(1880,2023,10)) + # adjust x grid lines
   theme_minimal() +
-  theme(axis.title = element_blank()) +
-  labs(title = "My awesome chart title", subtitle = "Names as a percentage of all births", color = "Baby name")
+  labs(
+    title = "My awesome chart title",
+    subtitle = "Names as a percentage of all births",
+    color = "Baby name",
+    y = "Proportion name given in year", x = ""
+  )
 ```
 
-And here's an alternative version
+And here's a quick alternative version of the same chart using geom_density. It might be pretty, but is is easier to read?
+
 ```{r}
-line_chart_data %>% ggplot(aes(x = year, y = prop, color = name, fill = name)) +
+top_5f_years |> ggplot(aes(x = year, y = prop, color = name, fill = name)) +
   geom_density(stat = "identity", alpha = .5) +
   theme_minimal()
 ```
 
-#### Faceting
+### OYO: Make a line chart
 
-(Ignore this code - it's just to prep the data)
+With a buddy, make your own super awesome line chart. Remember you'll first have to summarize your data to make it manageable.
+
+> I NEED TO SUPPLY AN IDEA FOR THIS?
+
+## Faceting
+
+Faceting is a way to break up your data into smaller pieces and plot them separately. This is useful when you have a lot of data and you want to see how different parts of it compare to each other.
+
+Let's walk through an example of this by ploting the popularity of the top 20 names over time.
+
+First we need to find those top 20 names. It's similar to what we did for the top 5 female names so I'm going to skip that explanation here.
+
 ```{r}
-top_names <- babynames %>% group_by(name) %>% summarize(total = sum(n)) %>% arrange(desc(total)) %>% top_n(20,total)
+top20_names <- babynames |>
+  group_by(name) |> 
+  summarize(total = sum(times_given)) |> 
+  arrange(desc(total)) |>
+  slice_max(total, n = 20) |> 
+  pull(name)
 
-facet_names <- inner_join(babynames, top_names)
+top20_names_data <- babynames |> 
+  filter(name %in% top20_names)
+
+top20_names_data
 ```
 
-
 And now the chart
+
+
+
 ```{r}
-facet_names %>% ggplot(aes(x = year, y = prop, color = name)) +
+top20_names_data |> ggplot(aes(x = year, y = prop, color = name)) +
   geom_line() +
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(breaks = seq(1900,2023,40)) +
@@ -217,9 +460,7 @@ facet_names %>% ggplot(aes(x = year, y = prop, color = name)) +
   facet_wrap(vars(name), ncol = 5)
 ```
 
-Your turn: With a buddy, make a rad line chart
+## More on your own
 
-```{r}
-
-```
+What do you want to know about the history of names in America? Let's figure it out.
 
