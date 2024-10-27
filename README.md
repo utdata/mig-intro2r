@@ -13,9 +13,7 @@ This workshop is designed to be run in the cloud, so you don't need to install a
 3. Once you are logged into posit.cloud, go to this URL: **[posit.cloud/content/9098983](https://posit.cloud/content/9098983)**
 4. We'll start with the file 01-introduction.qmd
 
-::: callout
-While this lesson is designed to be run on posit.cloud in a workshop situation, but there is no reason it can't be completed using [RStudio Desktop](https://posit.co/download/rstudio-desktop/) if you are familiar with it. The lessons would need to be [downloaded from Github](https://github.com/utdata/mig-intro2r) and packages installed, but directions for that are beyond the scope of this lesson.
-:::
+> While this lesson is designed to be run on posit.cloud in a workshop situation, it could be completed using [RStudio Desktop](https://posit.co/download/rstudio-desktop/) if you are familiar with it. The lessons would need to be [downloaded from Github](https://github.com/utdata/mig-intro2r) and packages installed, but directions for that are beyond the scope of this lesson.
 
 ## About this workshop
 
