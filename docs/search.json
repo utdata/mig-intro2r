@@ -28,18 +28,25 @@
     "text": "Visualizations\n\nOYO: Make a bar chart\n\noyo_col_data &lt;- babynames |&gt; \n  filter(sex == \"M\", name == \"Liam\")\n\noyo_col_data |&gt; \n  ggplot(aes(x = year, y = times_given)) +\n  geom_col() +\n  labs(\n    title = \"The rise of Liam\",\n    subtitle = \"The name Liam was the most given name in 2023.\",\n    caption = \"By Christian McDonald\",\n    x = \"\", y = \"Times name given\"\n  )\n\n\n\n\n\n\n\n\n\n\nOYO: Make a line chart\n\njames_mary &lt;- babynames |&gt; \n  filter(\n    (name == \"James\" & sex == \"M\") |\n    (name == \"Mary\" & sex == \"F\")\n  )\n\njames_mary |&gt; \n  ggplot(\n    aes(x = year, y = prop, color = name)) + \n      geom_line()"
   },
   {
-    "objectID": "guide.html#about-r-rstudio",
-    "href": "guide.html#about-r-rstudio",
+    "objectID": "guide.html#welcome",
+    "href": "guide.html#welcome",
     "title": "Intro to R for Storytelling",
-    "section": "About R & RStudio",
-    "text": "About R & RStudio"
+    "section": "Welcome",
+    "text": "Welcome\n\n\n\nGrab a bagel and some coffee\n\n\n\n\n\n\n\n\n\nSign Up/Log into posit.cloud\n\n\n\n\n\n\n\nGo to this URL: posit.cloud/content/9098983\n\n\n\n\n\nMake your own copy"
   },
   {
-    "objectID": "guide.html#about-posit.cloud",
-    "href": "guide.html#about-posit.cloud",
+    "objectID": "guide.html#what-today-is",
+    "href": "guide.html#what-today-is",
     "title": "Intro to R for Storytelling",
-    "section": "About posit.cloud",
-    "text": "About posit.cloud"
+    "section": "What today is …",
+    "text": "What today is …\n\nWe’ll introduce you to R & RStudio. It will go fast, but there are notes\nWe’ll use a cloud version so you don’t have to install software\nOur “project” is both the lesson and the workspace\nMost code is pre-written so you can focus on the concepts\nYou will have time to experiment"
+  },
+  {
+    "objectID": "guide.html#and-what-today-isnt",
+    "href": "guide.html#and-what-today-isnt",
+    "title": "Intro to R for Storytelling",
+    "section": "… and what today isn’t",
+    "text": "… and what today isn’t\nThree hours just isn’t much time.\n\nThis is just an introduction.\nHopefully this demystifies R a little and makes you curious\nTake my class!\n\nThere are many resources online. R for Data Science is the tidyverse bible. It’s free."
   },
   {
     "objectID": "02-tidyverse.html",
@@ -214,20 +221,27 @@
     "href": "index.html",
     "title": "Introduction to R for Storytelling",
     "section": "",
-    "text": "Welcome to this three-hour workshop where you’ll be introduced to the basics of the data science language R and some tools to use it to find and tell stories.\nIn this workshop we’ll explore the popularity of names in the United States over time. We’ll use data from the Social Security Administration, which has been tracking the popularity of baby names since 1880."
+    "text": "Welcome to this three-hour workshop where you’ll be introduced to the basics of the data science language R and some tools to use it to find and tell stories.\nIn this workshop we’ll explore the popularity of names in the United States over time. We’ll use data from the Social Security Administration, which has been tracking the popularity of baby names since 1880.\n\n\nThis workshop is designed to be run in the cloud, so you don’t need to install any software on your computer. We’ll be using a tool called posit.cloud, which is an online version of R & RStudio, the popular data analysis tools.\n\nGo to posit.cloud, which is an online version of R & RStudio, the tools we’ll use in this workshop.\nIf you don’t already have an account, use the Sign up or Get Started options to create a new account. If you already have an account, go ahead and log in.\nOnce you are logged into posit.cloud, go to this URL: posit.cloud/content/9098983\nWe’ll start with the file 01-introduction.qmd\n\n\n\n\n\n\n\nWhile this lesson is designed to be run on posit.cloud in a workshop situation, but there is no reason it can’t be completed using RStudio Desktop if you are familiar with it. The lessons would need to be downloaded from Github and packages installed, but directions for that are beyond the scope of this lesson.\n\n\n\n\n\n\nThis workshop was written by Christian McDonald, an Associate Professor of Practice in the School of Journalism and Media, a department of Moody College of Communication at the University of Texas at Austin. It is presented by the Media Innovation Group, a collective of student projects funded by the Dallas Morning News Journalism Innovation Endowment.\n\n\n\n\nR for Data Science\nQuarto Guide"
   },
   {
     "objectID": "index.html#using-posit.cloud",
     "href": "index.html#using-posit.cloud",
     "title": "Introduction to R for Storytelling",
-    "section": "Using posit.cloud",
-    "text": "Using posit.cloud\nThis workshop is designed to be run in the cloud, so you don’t need to install any software on your computer. We’ll be using a tool called posit.cloud, which is an online version of R & RStudio, the popular data analysis tools.\n\nGo to posit.cloud, which is an online version of R & RStudio, the tools we’ll use in this workshop.\nIf you don’t already have an account, use the Sign up or Get Started options to create a new account. If you already have an account, go ahead and log in.\nOnce you are logged into posit.cloud, go to this URL: TK.\nWe’ll start with the file 01-introduction.qmd\n\n\n\n\n\n\n\nWhile this lesson is designed to be run on posit.cloud in a workshop situation, but there is no reason it can’t be completed using RStudio Desktop if you are familiar with it. The lessons would need to be downloaded from Github and packages installed, but directions for that are beyond the scope of this lesson."
+    "section": "",
+    "text": "This workshop is designed to be run in the cloud, so you don’t need to install any software on your computer. We’ll be using a tool called posit.cloud, which is an online version of R & RStudio, the popular data analysis tools.\n\nGo to posit.cloud, which is an online version of R & RStudio, the tools we’ll use in this workshop.\nIf you don’t already have an account, use the Sign up or Get Started options to create a new account. If you already have an account, go ahead and log in.\nOnce you are logged into posit.cloud, go to this URL: posit.cloud/content/9098983\nWe’ll start with the file 01-introduction.qmd\n\n\n\n\n\n\n\nWhile this lesson is designed to be run on posit.cloud in a workshop situation, but there is no reason it can’t be completed using RStudio Desktop if you are familiar with it. The lessons would need to be downloaded from Github and packages installed, but directions for that are beyond the scope of this lesson."
   },
   {
     "objectID": "index.html#about-this-workshop",
     "href": "index.html#about-this-workshop",
     "title": "Introduction to R for Storytelling",
-    "section": "About this workshop",
-    "text": "About this workshop\nThis workshop was written by Christian McDonald, an Associate Professor of Practice in the School of Journalism and Media, a department of Moody College of Communication at the University of Texas at Austin. It is presented by the Media Innovation Group, a collective of student projects funded by the Dallas Morning News Journalism Innovation Endowment."
+    "section": "",
+    "text": "This workshop was written by Christian McDonald, an Associate Professor of Practice in the School of Journalism and Media, a department of Moody College of Communication at the University of Texas at Austin. It is presented by the Media Innovation Group, a collective of student projects funded by the Dallas Morning News Journalism Innovation Endowment."
+  },
+  {
+    "objectID": "index.html#resources-for-r",
+    "href": "index.html#resources-for-r",
+    "title": "Introduction to R for Storytelling",
+    "section": "",
+    "text": "R for Data Science\nQuarto Guide"
   }
 ]

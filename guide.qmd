@@ -4,39 +4,62 @@ author: "Media Innovation Group"
 format: revealjs
 ---
 
-# Welcome
-
-Grab a bagel and some coffee
-
----
+## Welcome
 
 :::: {.columns}
+::: {.column width="70%"}
 
-::: {.column width="50%"}
-1.
-
-![Log In/Sign Up to posit.cloud](../images/posit-cloud.svg)
+1. Grab a bagel and some coffee
 
 :::
-
-::: {.column width="50%"}
-2.
-
-![Under New Project, choose Github](../images/new-proj-github.png)
-:::
-
-
 ::: {.column width="30%"}
 
+![](https://images-prd.sodexomyway.net/web/en-us/media/EBB_bagels-coffee-1920x976_tcm17-28170.jpg)
 :::
-
 ::::
 
-Go type in this path: utdata/utdata-intro2r
+<hr>
 
-# Part 1
+:::: {.columns}
+::: {.column width="70%"}
 
-## About R & RStudio
+2. Sign Up/Log into posit.cloud
 
-## About posit.cloud
+:::
 
+::: {.column width="30%"}
+![](images/posit-cloud.svg)
+:::
+::::
+<hr>
+
+3. Go to this URL: **posit.cloud/content/9098983**
+
+<hr>
+
+:::: {.columns}
+::: {.column width="70%"}
+4. Make your own copy 
+:::
+::: {.column width="30%"}
+![](images/save-perm-copy.png)
+:::
+::::
+
+## What today is ...
+
+- We'll introduce you to R & RStudio. It will go fast, but there are notes
+- We'll use a cloud version so you don't have to install software
+- Our "project" is both the lesson and the workspace
+- Most code is pre-written so you can focus on the concepts
+- You will have time to experiment
+
+## ... and what today isn't
+
+Three hours just isn't much time.
+ 
+- This is just an introduction.
+- Hopefully this demystifies R a little and makes you curious
+- Take my class!
+
+There are many resources online. [R for Data Science](https://r4ds.hadley.nz/) is the tidyverse bible. It's free.

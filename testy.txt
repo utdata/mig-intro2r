@@ -1,4 +1,7 @@
-# Introduction to R for Storytelling
+
+---
+title: "Introduction to R for Storytelling"
+---
 
 Welcome to this three-hour workshop where you'll be introduced to the basics of the data science language R and some tools to use it to find and tell stories.
 
