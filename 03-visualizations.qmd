@@ -2,8 +2,6 @@
 title: "Visualizations"
 ---
 
-> THIS IS FAR FROM FINISHED
-
 Now let's it's time to really SEE our data. We will explore a tidyverse package called [ggplot2](https://ggplot2.tidyverse.org/), though we just say "ggplot" without the 2. It is a series of functions that allows you to crate any chart you want - just like how you can combine different ingredients to make different meals. Instead of just picking from pre-made chart types like pie or bar charts, you build your visualization in layers by choosing what data to show, how to represent it (like with points, lines, or bars), and how to arrange everything on the canvas. Think of it like LEGO bricks - you can combine simple pieces (like marks, scales, and coordinates) in different ways to create exactly the chart you need to tell your data's story."
 
 The package ggplot2 is quite extensive, allowing us to create a number of visualizations with tremendous flexibility and customization. We will just touch the surface of what it can do, but there are other great resources to learn more about what it can do:
@@ -317,7 +315,7 @@ oyo_col_data <- babynames |>
 oyo_col_data
 ```
 
-Now that you have data, plot that into a column chart:
+Now that you have data, edit this code to make a column chart:
 
 ```{r}
 oyo_col_data |> ggplot()
@@ -337,7 +335,7 @@ We'll need to figure out what those top names are and build our data set to incl
 - We filter it to just the year 2023 and for just females.
 - We slice the data to get the top 5 names by `times_given`.
 
-In the second step we can use the `pull()` function to pull out just the names from the data set. We save that, too, because it's what we'll use to filter our data.
+In the second step we use the `pull()` function to pull out just the names from the data set. We save that, too, because it's what we'll use to filter our data.
 
 ```{r}
 top_fname_2023 <- babynames |> 
@@ -400,7 +398,7 @@ Now we can make some cosmetic changes to our chart. We're adding a lot here at o
 top_5f_years |> ggplot(aes(x = year, y = prop, color = name)) +
   geom_line() +
   scale_y_continuous(labels = scales::percent) + # % in y axis
-  scale_x_continuous(breaks = seq(1880,2023,10)) + # adjust x grid lines
+  scale_x_continuous(breaks = seq(1880,2023,20)) + # adjust x grid lines
   theme_minimal() +
   labs(
     title = "My awesome chart title",
@@ -422,13 +420,30 @@ top_5f_years |> ggplot(aes(x = year, y = prop, color = name, fill = name)) +
 
 With a buddy, make your own super awesome line chart. Remember you'll first have to summarize your data to make it manageable.
 
-> I NEED TO SUPPLY AN IDEA FOR THIS?
+I'll prep some data for you to track the popularity of the names "James" and "Mary" over time. You can use this data to make a line chart.
+
+```{r}
+james_mary <- babynames |> 
+  filter(
+    (name == "James" & sex == "M") |
+    (name == "Mary" & sex == "F")
+  )
+
+james_mary
+```
+
+Now plot the `prop` values for these two names over time.
+
+```{r}
+
+```
+
 
 ## Faceting
 
 Faceting is a way to break up your data into smaller pieces and plot them separately. This is useful when you have a lot of data and you want to see how different parts of it compare to each other.
 
-Let's walk through an example of this by ploting the popularity of the top 20 names over time.
+Let's walk through an example of this by plotting the popularity of the top 20 names over time.
 
 First we need to find those top 20 names. It's similar to what we did for the top 5 female names so I'm going to skip that explanation here.
 
@@ -446,18 +461,16 @@ top20_names_data <- babynames |>
 top20_names_data
 ```
 
-And now the chart
-
-
+And now the chart. We're going to add a `facet_wrap()` function to our chart to break it up by name. We also make some other changes to use percentages, change the grid lines to every 50 years, and some other theme changes.
 
 ```{r}
 top20_names_data |> ggplot(aes(x = year, y = prop, color = name)) +
   geom_line() +
   scale_y_continuous(labels = scales::percent) +
-  scale_x_continuous(breaks = seq(1900,2023,40)) +
+  scale_x_continuous(breaks = seq(1900,2023,50)) +
   theme_minimal() +
   theme(legend.position = "none") +
-  facet_wrap(vars(name), ncol = 5)
+  facet_wrap(vars(name), ncol = 5) # this is the facet magic
 ```
 
 ## More on your own

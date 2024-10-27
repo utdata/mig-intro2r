@@ -1,0 +1,98 @@
+---
+title: "On Your Own Solutions"
+---
+
+These are the answers to the On Your Own sections.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+```
+
+
+## Necessary bits
+
+These are bits of code that have to have been run in the original notebook for the solutions to work.
+
+```{r}
+babynames <- read_rds("data/babynames.rds") |>
+  rename(times_given = n)
+```
+
+## Tidyverse
+
+### OYO: Import
+
+```{r}
+applicants <- read_rds("data/applicants.rds")
+
+applicants
+```
+
+
+### OYO: Tail
+
+```{r}
+babynames |> tail()
+```
+
+### OYO: Tops your YOB
+
+Change the year value in the filter.
+
+```{r}
+babynames |> 
+  arrange(desc(times_given)) |> 
+  filter(year == 1966) |> 
+  select(name, sex, times_given)
+```
+
+### OYO: Most popular names by sex
+
+```{r}
+babynames |> 
+  group_by(sex) |> 
+  arrange(desc(prop)) |> 
+  slice_max(prop, n = 5)
+```
+
+
+## Visualizations
+
+### OYO: Make a bar chart
+
+```{r}
+oyo_col_data <- babynames |> 
+  filter(sex == "M", name == "Liam")
+
+oyo_col_data |> 
+  ggplot(aes(x = year, y = times_given)) +
+  geom_col() +
+  labs(
+    title = "The rise of Liam",
+    subtitle = "The name Liam was the most given name in 2023.",
+    caption = "By Christian McDonald",
+    x = "", y = "Times name given"
+  )
+```
+
+### OYO: Make a line chart
+
+```{r}
+james_mary <- babynames |> 
+  filter(
+    (name == "James" & sex == "M") |
+    (name == "Mary" & sex == "F")
+  )
+
+james_mary |> 
+  ggplot(
+    aes(x = year, y = prop, color = name)) + 
+      geom_line()
+```
+
+

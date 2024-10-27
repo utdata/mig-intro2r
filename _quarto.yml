@@ -2,9 +2,7 @@ project:
   type: website
   output-dir: docs
   render: 
-    - 01-introduction.qmd
-    - 02-tidyverse.qmd
-    - 03-visualizations.qmd
+    - ./*.qmd
 
 website:
   title: "Intro to R"

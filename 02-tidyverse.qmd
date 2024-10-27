@@ -1,8 +1,8 @@
 ---
-title: "Tidyverse and baby names"
+title: "Welcome to the tidyverse"
 ---
 
-In this notebook we'll learn about how  [tidyverse](https://www.tidyverse.org/) functions help use suss through data.
+In this notebook we'll learn about how [tidyverse](https://www.tidyverse.org/) functions help us suss through data.
 
 Along the way, we'll explore the names given to babies since 1880, based on data from the Social Security Administration.
 
@@ -10,22 +10,19 @@ Along the way, we'll explore the names given to babies since 1880, based on data
 
 Some questions we'll answer along the way:
 
-- How many different names have been given?
-
-- What is the most popular name given of all time?
-- What are the most popular names used for each gender?
-
-- What are the most popular names in each year?
-
-
+- What is the most given name of all time?
+- What are the most given name by sex?
+- What are the most given names in each year?
+- What are the top 5 highest shares for a name within a year for each sex?
+- How many different names have been given since 1880s.
 
 ## Setup
 
 R is an open source language that anyone can contribute back to the community through "packages". Packages are basically collections of pre-written code that is stored where an R user can download it to their computer and use it.
 
-There is a public-benefit corporation called Posit that has written a lot of R code for data science that has become very popular with journalist because the code is all written to work together in a similar fashion ... the tidyverse way. The most used packages are collected into an uber package called "tidyverse", which has already been installed on our posit.cloud virtual machines. However, for each notebook you have to declare which packages you use.
+There is a public-benefit corporation called Posit that has written a lot of R code for data science that has become popular with journalists because the code is all written to work together in a similar fashion ... the tidyverse way. The most used packages are collected into an uber package called "tidyverse", which has already been installed on our posit.cloud virtual machines. However, for each notebook you have to declare which packages you use.
 
-Knowing which packages to install and use come with experience, but we **always** start with the [tidyverse](https://www.tidyverse.org/) and [janitor](https://sfirke.github.io/janitor/) packages because they include our most-used functions.
+Knowing which packages to install and use come with experience, but I **always** start with the [tidyverse](https://www.tidyverse.org/) and [janitor](https://sfirke.github.io/janitor/) packages because they include our most-used functions.
 
 Here we have a code chunk you should have near the top of every notebook. In addition to loading our two libraries there are some *execution options* that start with `#|`. Those options really are "optional" so we'll skip over them for now, but you should run the code chunk.
 
@@ -42,28 +39,38 @@ You may get lots of output from your setup chunk and some the text may be colore
 
 ## Functions are _the_ thing
 
-In the introduction we mentioned that **functions** are the action verbs of programming. In fact, learning the functions and how they work IS programming. In R, is the construction of these functions that make up our code.
+In the introduction we mentioned that **functions** are the action verbs of programming. In fact, learning the functions and how they work IS programming. In R, it is the construction of these functions that make up our code.
 
 At their heart, functions are just pre-written code to accomplish something. Some things to know:
 
-- A function name usually describe what it does: `arrange()` sorts things in the order you specify. `library()` loads a specific library.
-- A function has parenthesis to written directly after it.
-- Inside the parenthesis we'll often add "arguments" specific to the function. These are basically options to make the function behave a specific way. Well written functions will have smart defaults so you only have to add arguments to change its behaivor.
+- A function name usually describe what it does: `arrange()` sorts things in the order you specify. `library()` loads a specific library. `mean()` gets an average of multiple numbers.
+- A function has parenthesis written directly after it, without a space.
+- Inside the parenthesis we'll often add "arguments" specific to the function. These are options to make the function behave a specific way. Well written functions will have smart defaults so you only have to add arguments to change the default behavior.
 - With tidyverse functions, the first argument is usually the data you are using.
-- To make our code more easy to read, we use pipes (`|>` or `%>%`) to pass the results of one function into the first argument of the next function:
+- To make our code more easy to read, we use pipes (`|>` or `%>%`) to pass the results of one function into the first argument of the next function.
+
+Here is some fake code to show kinda how a pipe works.
 
 ```r
-I |> 
-  wake_up() |> 
-  bed(direction = "out") |> 
+i |> 
+  sleep(action = "wake up") |> 
+  fall(location = "bed", direction = "out") |> 
   comb(method = "drag", direction = "across", body_part = "head")
 ```
 
-OK, maybe there was too much Dad in that joke.
+OK, maybe there was [too much Dad in that joke](https://www.youtube.com/watch?v=usNsCeOV4GM&t=140s).
 
 ## Importing data
 
 The best way to learn tidyverse functions is to use them, so we'll start using exploring our baby names data while we talk about these things.
+
+
+- In the code below, we come across something that happens often in R: We have to create an object/variable before we will it with data. Think of this like a bucket of water ... you have to have a bucket BEFORE you can fill it with something. `babynames_raw` is our empty bucket.
+- The `<-` part of the code is the assignment operator that fills our bucket with data. It "moves" the results of the code on the right into the object on the left.
+- The `read_rds()` function is a function that reads in a file in a special format that R can read quickly. We give it the path to the file as an argument. There is a file saved with this notebook called `babynames.rds` and it is in our `data` folder.
+- The last line just prints out the `babynames_raw` data so we can see it in our notebook.
+
+1. Try using the keyboard commands to run this code. Put your cursor somewhere inside the code chunk and use *Ctrl + Shift + Enter* on Windows or *Cmd + Shift + Return* on Mac.
 
 ```{r}
 babynames_raw <- read_rds("data/babynames.rds")
@@ -79,10 +86,12 @@ We want to import a file called `applicants.rds`. It is stored in the same `data
 
 We always want to _build_ code one line at a time, so run the code after we add each part.
 
-1. Start a code chunk below these directions.
-2. Start with the `read_rds()` function, and then supply the path as an argument.
-3. Save the result into a new object called `applicants`.
-4. Print out `applicants` to your notebook.
+1. In the bland code chunk below ...
+2. Start typing in the `read_rds()` function. You'll see that type-assist will help you find it. When you get the right one, you can hit tab or enter to finish.
+3. Next we'll supply the first argument, which is the the path the the file, in quotes. The path we need is `data/applicants.rds`. RUN the code chunk to see it works.
+4. Next we'll add the new object to put all this in, which we'll call `applicants`. We need the `<-` assignment operator, too.
+5. Lastly on a new line we repeat `applicants` to print it out to the notebook.
+6. Run it all again to make sure it works.
 
 ```{r}
 
@@ -104,7 +113,7 @@ This will give you lots of information about your data, including how many rows 
 babynames_raw
 ```
 
-Most of these column names are named what that mean, all accept `n`. That is shorthand for "number of observations" i.e., the number of times that name was given in that year.
+Most of these column names are named what that mean, all accept `n`. That is shorthand for "number of observations" i.e., the number of times that name was given in that year. We're going to change that in a minute.
 
 ### Glimpse your data
 
@@ -133,19 +142,21 @@ babynames_raw |> head(5)
 
 Try `tail()` on your own. It works the same way as head().
 
-1. Create a new code chunk below.
-2. Start with `babynames` and pipe into `tail()`
-3. Try different number values inside `tail()` and see what it does.
+1. Using the empty code chunk below. Start with `babynames` and pipe into `tail()`. There is a keyboard shortcut for the pipe: *Ctrl + Shift + M* on Windows or *Cmd + Shift + M* on a Mac.
+2. Try different number values inside `tail()` and see what it does.
+
+```{r}
+
+```
+
 
 ## Cleaning data
 
 Data is almost never perfect. In this case we have a column name "n" that isn't very descriptive that could cause confusion later because in data science the term "n" typically stands for "number of observations". While it is true our `n` column is the number of times a name appears each year, let's rename it something more descriptive.
 
-During this process, we will create a new R object called `babynames`. A common theme in R is you have to name a thing before you can fill it, so that is why we see the new object first, then the operator `<-` that is used to fill the object with the results of the code on the right.
+During this process, we will create a new R object called `babynames`. Again, like we did above we have the create the thing before you can fill it, so that is why we see the new object first, then the `<-` to fill the object with the results of the code on the right.
 
-I often explain it like this: You must have a bucket before you can fill it with water.
-
-On the right side we are taking our raw data and piping it into the `rename()` funciton. That function also wants to know the new things first, so `times_given = n` is renaming the n column.
+On the right side we are taking our raw data and piping it into the `rename()` function. That function also wants to know the new things first but a variable like this gets assigned with a single `=` sign, so `times_given = n` is renaming the n column.
 
 ```{r}
 babynames <- babynames_raw |> rename(times_given = n)
@@ -153,15 +164,15 @@ babynames <- babynames_raw |> rename(times_given = n)
 babynames |> head()
 ```
 
-Cleaning data is often the most time consuming part of data science. We are ususally making sure that variables are the correct data types, are well-named and don't have any obvious problems. Here we just did the one thing to change a column name.
+Cleaning data is often the most time consuming part of data science. We are usually making sure that variables are the correct data types, are well-named and don't have any obvious problems. Here we just did the one thing to change a column name.
 
 ## Focusing data
 
-Sometimes we want to look at specific things in our data. We might want to look at specific columns, or find particular rows. 
+Sometimes we want to look at specific things in our data. We might want to look at specific columns/variables, or find particular rows. 
 
 ### Arrange to sort
 
-We use the `arrange()` function to sort data based on columns we specify. The default is to sort from smallest to largest, so we have to specify `desc()` if we want it the other direction.
+We use the `arrange()` function to sort data based on variables we specify. The default is to sort from smallest to largest, so we have to specify `desc()` if we want it the other direction.
 
 ```{r}
 babynames |> 
@@ -171,7 +182,7 @@ babynames |>
   arrange(desc(times_given))
 ```
 
-The code chunk above actually has TWO lines of code so it prints out data TWICE in your notebook into different tames. Click on the each tab to see and compare the results.
+The code chunk above actually has TWO lines of code so it prints out data TWICE to your notebook into different tabs. Click on the each tab to see and compare the results.
 
 In the second line, we are **nesting** some functions. Even with only two functions, you can see that reading from the middle of a line of code can be confusing. This is why the pipe `|>` is so important so we can move the result of one function into another.
 
@@ -189,7 +200,7 @@ babynames |>
   filter(year == 2023)
 ```
 
-This gives us the most popular names given in 2023! There were 31,682 different names given to boys and girls, although some names might be listed for both sexes.
+This gives us the most popular names in 2023! There were 31,682 different names given to boys and girls, although some names might be listed for both sexes.
 
 ### Select columns
 
@@ -210,23 +221,21 @@ Another way to do it is to choose which columns NOT to use by adding a `-` befor
 babynames |> 
   arrange(desc(times_given)) |> 
   filter(year == 2023) |> 
-  select(-year) # removes the year column
+  select(-prop) # removes the prop column
 ```
-
 
 ### OYO: Tops your YOB
 
 **Find the top names in the year you were born.** Remember, it really helps to run your code after writing each line, before you add the pipe to add the next part.
 
-1. Create a new code block and start with babynames.
-2. Pipe into a filter to find your birth year.
+1. In the blank code block below, start with babynames and run the chunk.
+2. Pipe into a filter to find your birth year. You can use *Cmd + Shift + M* (Mac) or *Ctrl + Shift + M* (Windows) to write the pipe.
 3. Pipe into another filter to find your sex.
-4. Arrange to find the most popular name.
+4. Arrange to find the most given.
 
 ```{r}
 
 ```
-
 
 ## Summarizing data
 
@@ -236,7 +245,7 @@ The function `summarize()` does just this. Feed it data, the name of a column an
 
 ### Adding with sum
 
-Within our babynames data, we have the number of times a name was given to a person. We could total all those up to find out how many names were given.
+Within our babynames data, we have the number of times a name was given to a person. We could total all those up to find out how many names were given through time.
 
 ```{r}
 babynames |> 
@@ -245,17 +254,15 @@ babynames |>
   )
 ```
 
-Inside the summarize, we had to give it our "summarizing" function, which is `sum()` in this case, which will add together all the values in the column we give it, which is `n` in our case.
-
-(That column being called `n` is going to get confusing, because there is another summarizing function called `n()` that counts the **number of rows**.)
+Inside the summarize, we had to give it our "summarizing" function, which is `sum()` in this case, which will add together all the values in the column we give it, which is `times_given` in our case.
 
 ### Grouping before summarizing
 
 We can organize our data into **groups** before we summarize the numbers. This is _very_ common in data journalism ... to put our data into different piles based on values within a column, before we count or add it.
 
-#### Most popular name
+#### Most given name
 
-OK, but **what is the most popular name of all time?** How can we add together how many times a person has been given each name in the list?
+OK, but **what is the most given name of all time?** How can we add together how many times a person has been given each name in the list?
 
 Let's show and example.
 
@@ -266,21 +273,30 @@ babynames |>
   arrange(desc(total_given))
 ```
 
-#### Most popular by sex
+#### Most given name by sex
 
-We can group by more than one value before we summarize. Here let's find the most popular names including sex, and then find just the female names.
+**What are the most given name by sex?**
+
+We can group by more than one value before we summarize. Here let's find the most given names including sex, and then find just the female names.
+
+- We group by both `name` and `sex`.
+- We total how many times each name has been given for that sex.
+- We sort the data to put the highest `total_given` values at the top.
+- We filter 
+
 
 ```{r}
 babynames |> 
   group_by(name, sex) |> 
   summarize(total_given = sum(times_given)) |> 
-  arrange(desc(total_given)) |> 
-  filter(sex == "F")
+  arrange(desc(total_given))
 ```
 
 So, according to this data, more then 70,000 different names have been given to girls. The name use most often was Mary, with 4.1 million.
 
-#### Most popular each year
+You could add a `filter()` line at the bottom of that to see the sex by just M or F. If we have time, try that.
+
+#### Most given each year
 
 While grouping is often used with summarize, any function following `group_by()` will be applied with groupings. Let's show this using `slice_max()`, which filters rows based on the highest value given.
 
@@ -299,6 +315,40 @@ babynames |>
   slice_max(times_given, n = 3)
 ```
 
+### OYO: Most popular names by sex
+
+The `prop` value in our data is the "proportion" or percentage of people that name was given to within its year. So in 1880, 7.2% of females were given the name Mary.
+
+Use what you've learned so far today to find this:
+
+**What are the top 5 highest shares for a name within a year for each sex**.
+
+```{r}
+
+```
+
+
+### Grouping and counting
+
+Sometimes we just want to count the number of times a value appears in a column. We can use summarize to do this, too, but instead of using `sum()` to add together values, we use the function `n()` to count the number of rows that have each value.
+
+#### Total names given
+
+We'll use this method to find **how many different names have been given through all time.**
+
+Here we will group by `name` and then count how many rows have had that name. This gives us a unique row for each name, so the total number of rows in the end is our total number of names, about 103,500 of them.
+
+```{r}
+babynames |> 
+  group_by(name) |> 
+  summarize(yrs_used = n()) |> 
+  arrange(desc(yrs_used))
+```
+
+Couple of things to take from this result above.
+
+- At 103,564 rows, that is now many different names have been used.
+- The `yrs_used` column is the number of times that name appeared. The names listed at the top with 288 are names given to both boys and girls every year of our data.
 
 ## Render your page
 
