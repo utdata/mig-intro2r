@@ -63,3 +63,9 @@ Three hours just isn't much time.
 - Take my class!
 
 There are many resources online. [R for Data Science](https://r4ds.hadley.nz/) is the tidyverse bible. It's free.
+
+## Thank you for coming
+
+If you are seeking extra credit from Prof. Quigley, you need to take a photo of this slide!
+
+![](images/dodger-stadium.jpeg)

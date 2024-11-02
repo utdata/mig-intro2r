@@ -22,7 +22,7 @@ Here are some example charts to show how different they can be ..
 
 At the end of our last lesson we "Rendered" our page into HTML so you can share your analysis with others. Each Quarto document needs to run independently to render, so each notebook must have the code to load the libraries and data it needs.
 
-That's what this next chunk is. We are loading some libraries and importing our data again.
+That's what this next chunk is. We are loading some libraries and importing our data again. Make sure you run this chunk!
 
 ```{r}
 #| label: setup
@@ -63,7 +63,7 @@ top_5_data
 
 ### Building a chart in layers
 
-Usually when we build a chart, we would keep adding our layers into a **SINGLE** code chunk, rerunning the code with each addition to make sure the changes work the way we want. In this exercise, we are creating new code chunks so you can see the difference between each layer as we add it.
+Usually when we build a chart, we would keep adding our layers into the **SAME code chunk**, rerunning the code with each addition to make sure the changes work the way we want. In this exercise, we are creating new code chunks so you can see the difference between each layer as we add it.
 
 Also, with this first chart we are going to do a LOT of modifications, more than you might need just so see your data. But the idea is to show you the kinds of things that you can change, and how.
 :::
@@ -317,6 +317,10 @@ oyo_col_data
 
 Now that you have data, edit this code to make a column chart:
 
+- Start by adding `x` and `y` values in the `aes()` function to the appropriate columns.
+- Add a `geom_col()` function to add the columns to the chart.
+- Add a `labs()` function for titles, etc.
+
 ```{r}
 oyo_col_data |> ggplot()
 ```
@@ -324,7 +328,7 @@ oyo_col_data |> ggplot()
 
 ## Line chart
  
-So far, we've been plotting one type of thing. But what if we want to see how the popularity of a name has changed over time? We can use a line chart to show that.
+So far, we've been plotting one type of thing. But what if we want to see how the popularity of multiple names have changed over time? We can use a line chart to show that.
 
 ### Prepping the data
 
@@ -364,7 +368,7 @@ top_5f_years
 ### Start with canvas
 
 ::: callout
-Again, normally we would build this chart step by step in the SAME code chunk, but we will create new ones here so you can see the differences in each step.
+Again, normally we would build this chart step by step in the **SAME** code chunk, but we will create new ones here so you can see the differences in each step.
 :::
 
 We start by setting up our canvas, setting what data we want on the x and y axis.

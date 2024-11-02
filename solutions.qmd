@@ -53,10 +53,11 @@ babynames |>
 
 ### OYO: Most popular names by sex
 
+**What are the top 5 highest shares for a name within a year for each sex**.
+
 ```{r}
 babynames |> 
   group_by(sex) |> 
-  arrange(desc(prop)) |> 
   slice_max(prop, n = 5)
 ```
 

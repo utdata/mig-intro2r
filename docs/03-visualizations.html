@@ -222,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p>At the end of our last lesson we “Rendered” our page into HTML so you can share your analysis with others. Each Quarto document needs to run independently to render, so each notebook must have the code to load the libraries and data it needs.</p>
-<p>That’s what this next chunk is. We are loading some libraries and importing our data again.</p>
+<p>That’s what this next chunk is. We are loading some libraries and importing our data again. Make sure you run this chunk!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
@@ -274,7 +274,7 @@ Building a chart in layers
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Usually when we build a chart, we would keep adding our layers into a <strong>SINGLE</strong> code chunk, rerunning the code with each addition to make sure the changes work the way we want. In this exercise, we are creating new code chunks so you can see the difference between each layer as we add it.</p>
+<p>Usually when we build a chart, we would keep adding our layers into the <strong>SAME code chunk</strong>, rerunning the code with each addition to make sure the changes work the way we want. In this exercise, we are creating new code chunks so you can see the difference between each layer as we add it.</p>
 <p>Also, with this first chart we are going to do a LOT of modifications, more than you might need just so see your data. But the idea is to show you the kinds of things that you can change, and how.</p>
 </div>
 </div>
@@ -587,6 +587,11 @@ Building a chart in layers
 </div>
 </div>
 <p>Now that you have data, edit this code to make a column chart:</p>
+<ul>
+<li>Start by adding <code>x</code> and <code>y</code> values in the <code>aes()</code> function to the appropriate columns.</li>
+<li>Add a <code>geom_col()</code> function to add the columns to the chart.</li>
+<li>Add a <code>labs()</code> function for titles, etc.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>oyo_col_data <span class="sc">|&gt;</span> <span class="fu">ggplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -601,7 +606,7 @@ Building a chart in layers
 </section>
 <section id="line-chart" class="level2">
 <h2 class="anchored" data-anchor-id="line-chart">Line chart</h2>
-<p>So far, we’ve been plotting one type of thing. But what if we want to see how the popularity of a name has changed over time? We can use a line chart to show that.</p>
+<p>So far, we’ve been plotting one type of thing. But what if we want to see how the popularity of multiple names have changed over time? We can use a line chart to show that.</p>
 <section id="prepping-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="prepping-the-data">Prepping the data</h3>
 <p>We’ll need to figure out what those top names are and build our data set to include them. We’re going to do this in two steps. First we need to find our most popular names and create a list of them to filter with.</p>
@@ -659,7 +664,7 @@ Building a chart in layers
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Again, normally we would build this chart step by step in the SAME code chunk, but we will create new ones here so you can see the differences in each step.</p>
+<p>Again, normally we would build this chart step by step in the <strong>SAME</strong> code chunk, but we will create new ones here so you can see the differences in each step.</p>
 </div>
 </div>
 </div>

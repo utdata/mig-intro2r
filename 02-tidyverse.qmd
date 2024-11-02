@@ -2,7 +2,7 @@
 title: "Welcome to the tidyverse"
 ---
 
-In this notebook we'll learn about how [tidyverse](https://www.tidyverse.org/) functions help us suss through data.
+In this notebook we'll learn how [tidyverse](https://www.tidyverse.org/) functions help us suss through data.
 
 Along the way, we'll explore the names given to babies since 1880, based on data from the Social Security Administration.
 
@@ -11,14 +11,14 @@ Along the way, we'll explore the names given to babies since 1880, based on data
 Some questions we'll answer along the way:
 
 - What is the most given name of all time?
-- What are the most given name by sex?
+- What are the most given names by sex?
 - What are the most given names in each year?
 - What are the top 5 highest shares for a name within a year for each sex?
 - How many different names have been given since 1880s.
 
 ## Setup
 
-R is an open source language that anyone can contribute back to the community through "packages". Packages are basically collections of pre-written code that is stored where an R user can download it to their computer and use it.
+R is an open source language where the community can build and share new code through "packages". Packages are basically collections of pre-written code that is stored where an R user can download it to their computer and use it.
 
 There is a public-benefit corporation called Posit that has written a lot of R code for data science that has become popular with journalists because the code is all written to work together in a similar fashion ... the tidyverse way. The most used packages are collected into an uber package called "tidyverse", which has already been installed on our posit.cloud virtual machines. However, for each notebook you have to declare which packages you use.
 
@@ -43,18 +43,18 @@ In the introduction we mentioned that **functions** are the action verbs of prog
 
 At their heart, functions are just pre-written code to accomplish something. Some things to know:
 
-- A function name usually describe what it does: `arrange()` sorts things in the order you specify. `library()` loads a specific library. `mean()` gets an average of multiple numbers.
+- A function name usually describes what it does: `arrange()` sorts things in the order you specify. `library()` loads a specific library. `mean()` gets an average of multiple numbers.
 - A function has parenthesis written directly after it, without a space.
-- Inside the parenthesis we'll often add "arguments" specific to the function. These are options to make the function behave a specific way. Well written functions will have smart defaults so you only have to add arguments to change the default behavior.
+- Inside the parenthesis we'll often add "arguments" specific to the function. These are options to make the function behave a specific way. Well-written functions will have smart defaults so you only have to add arguments to change the default behavior.
 - With tidyverse functions, the first argument is usually the data you are using.
 - To make our code more easy to read, we use pipes (`|>` or `%>%`) to pass the results of one function into the first argument of the next function.
 
 Here is some fake code to show kinda how a pipe works.
 
 ```r
-i |> 
+john_lennon |> 
   sleep(action = "wake up") |> 
-  fall(location = "bed", direction = "out") |> 
+  fall(direction = "out", location = "bed") |> 
   comb(method = "drag", direction = "across", body_part = "head")
 ```
 
@@ -63,7 +63,6 @@ OK, maybe there was [too much Dad in that joke](https://www.youtube.com/watch?v=
 ## Importing data
 
 The best way to learn tidyverse functions is to use them, so we'll start using exploring our baby names data while we talk about these things.
-
 
 - In the code below, we come across something that happens often in R: We have to create an object/variable before we will it with data. Think of this like a bucket of water ... you have to have a bucket BEFORE you can fill it with something. `babynames_raw` is our empty bucket.
 - The `<-` part of the code is the assignment operator that fills our bucket with data. It "moves" the results of the code on the right into the object on the left.
@@ -86,9 +85,9 @@ We want to import a file called `applicants.rds`. It is stored in the same `data
 
 We always want to _build_ code one line at a time, so run the code after we add each part.
 
-1. In the bland code chunk below ...
+1. In the blank code chunk below ...
 2. Start typing in the `read_rds()` function. You'll see that type-assist will help you find it. When you get the right one, you can hit tab or enter to finish.
-3. Next we'll supply the first argument, which is the the path the the file, in quotes. The path we need is `data/applicants.rds`. RUN the code chunk to see it works.
+3. Next we'll supply the first argument, which is the path to the file, in quotes. The path we need is `data/applicants.rds`. RUN the code chunk to see it works.
 4. Next we'll add the new object to put all this in, which we'll call `applicants`. We need the `<-` assignment operator, too.
 5. Lastly on a new line we repeat `applicants` to print it out to the notebook.
 6. Run it all again to make sure it works.
@@ -109,6 +108,8 @@ You can print out your data just by naming it in a code chunk and running that l
 
 This will give you lots of information about your data, including how many rows and columns. It shows you the column names (also called variables) and the data type within those variables.
 
+1. Run the code chunk below so we can explore the data.
+
 ```{r}
 babynames_raw
 ```
@@ -119,6 +120,8 @@ Most of these column names are named what that mean, all accept `n`. That is sho
 
 Sometimes our data has so many variables it is hard to see them all at once. I often use a function called `glimpse()`, which lists each columns, it's data type, etc.
 
+1. Run this code chunk to peek at your data in a differen way.
+
 ```{r}
 babynames_raw |> glimpse()
 ```
@@ -127,12 +130,16 @@ babynames_raw |> glimpse()
 
 Another neat function is `summary()` which can give you some basic statistics about your data. This is good to see the highest and lowest values within specific variables.
 
+1. Yep, run this one, too.
+
 ```{r}
 babynames_raw |> summary()
 ```
 ### Head and Tail
 
 The `head()` and `tail()` functions just show you a select number of lines from the top or bottom of the file.
+
+**From now on, if you see a code chunk like this without any other directions to add to it, just run it so you can see what it does. It might be important for later chunks to work.**
 
 ```{r}
 babynames_raw |> head(5)
@@ -152,9 +159,9 @@ Try `tail()` on your own. It works the same way as head().
 
 ## Cleaning data
 
-Data is almost never perfect. In this case we have a column name "n" that isn't very descriptive that could cause confusion later because in data science the term "n" typically stands for "number of observations". While it is true our `n` column is the number of times a name appears each year, let's rename it something more descriptive.
+Data is almost never perfect. In this case we have a column name "n" that isn't very descriptive that could cause confusion later because in data science the term "n" typically stands for "number of observations". While it is true our `n` column is the number of times a name appears each year, let's rename it to something more descriptive.
 
-During this process, we will create a new R object called `babynames`. Again, like we did above we have the create the thing before you can fill it, so that is why we see the new object first, then the `<-` to fill the object with the results of the code on the right.
+During this process, we will create a new R object called `babynames` from the original `babynames_raw`. Again, like we did above we have the create the thing before you can fill it, so that is why we see the new object first, then the `<-` to fill the object with the results of the code on the right.
 
 On the right side we are taking our raw data and piping it into the `rename()` function. That function also wants to know the new things first but a variable like this gets assigned with a single `=` sign, so `times_given = n` is renaming the n column.
 
@@ -224,11 +231,11 @@ babynames |>
   select(-prop) # removes the prop column
 ```
 
-### OYO: Tops your YOB
+### OYO: Top names for your YOB
 
 **Find the top names in the year you were born.** Remember, it really helps to run your code after writing each line, before you add the pipe to add the next part.
 
-1. In the blank code block below, start with babynames and run the chunk.
+1. In the blank code block below, start with `babynames` and run the chunk.
 2. Pipe into a filter to find your birth year. You can use *Cmd + Shift + M* (Mac) or *Ctrl + Shift + M* (Windows) to write the pipe.
 3. Pipe into another filter to find your sex.
 4. Arrange to find the most given.
@@ -264,7 +271,7 @@ We can organize our data into **groups** before we summarize the numbers. This i
 
 OK, but **what is the most given name of all time?** How can we add together how many times a person has been given each name in the list?
 
-Let's show and example.
+Let's show an example.
 
 ```{r}
 babynames |> 
@@ -282,25 +289,24 @@ We can group by more than one value before we summarize. Here let's find the mos
 - We group by both `name` and `sex`.
 - We total how many times each name has been given for that sex.
 - We sort the data to put the highest `total_given` values at the top.
-- We filter 
+- We filter to find just the female names.
 
 
 ```{r}
 babynames |> 
   group_by(name, sex) |> 
   summarize(total_given = sum(times_given)) |> 
-  arrange(desc(total_given))
+  arrange(desc(total_given)) |> 
+  filter(sex == "F")
 ```
 
 So, according to this data, more then 70,000 different names have been given to girls. The name use most often was Mary, with 4.1 million.
-
-You could add a `filter()` line at the bottom of that to see the sex by just M or F. If we have time, try that.
 
 #### Most given each year
 
 While grouping is often used with summarize, any function following `group_by()` will be applied with groupings. Let's show this using `slice_max()`, which filters rows based on the highest value given.
 
-In this code chunk, we take babynames and then find the the three highest values of `times_given`.
+In this code chunk, we take babynames and then find the three highest values of `times_given`.
 
 ```{r}
 babynames |> 

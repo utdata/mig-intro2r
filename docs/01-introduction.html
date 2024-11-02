@@ -211,6 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>An item like this is a direction. Do what it says.</li>
 <li>This would be the next direction.</li>
 </ol>
+<p>We’ll talk more about why we use Markdown and Quarto in a bit.</p>
 </section>
 <section id="the-story-so-far" class="level2">
 <h2 class="anchored" data-anchor-id="the-story-so-far">The story so far …</h2>
@@ -224,10 +225,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-one-getting-familiar-with-rstudio" class="level2">
 <h2 class="anchored" data-anchor-id="part-one-getting-familiar-with-rstudio">Part One: Getting familiar with RStudio</h2>
 <p>RStudio is your dashboard for writing R code. Open files will show up in the upper-left quadrant of RStudio.</p>
-<p>The upper-right quadrant has several tabs, the first of which is <strong>environment</strong>: if you store any information in objects (such as a table of data), they will show up there.</p>
-<p>The lower-right quadrant also has several tabs, the first of which is Files: it shows what files exist in your current working directory, which is this workshop folder. Among those files are ones that end with <code>.qmd</code>, which are Quarto files we will edit. Once opened, they appear in the upper-left quadrant.</p>
+<p>The upper-right quadrant has several tabs, the first of which is <strong>Environment</strong>: Code objects stored in memory (such as a table of data), will show up there.</p>
+<p>The lower-right quadrant also has several tabs, the first of which is <strong>Files</strong>: it shows what files exist in your current working directory, which is this workshop folder. Among those files are ones that end with <code>.qmd</code>, which are Quarto files we will edit. Once opened, they appear in the upper-left quadrant.</p>
 <p>In the lower-left, you’ll see the <strong>Console</strong>. This will reflect all the R code you run, but we don’t do much with it when we’re working in Quarto files. There is also <strong>Terminal</strong>, which is a way to interface your computer through written commands. We won’t be using that today, but if you continue with this type of work you likely will.</p>
-<p>I encourage writing R code within <strong>Quarto Document</strong> files (.qmd) because it enable syou to both write comments (like these sentences) and to write code, in what we call a <strong>code chunk</strong>.</p>
+<p>I encourage writing R code within <strong>Quarto Document</strong> files (.qmd) because they enable you to both write comments (like these sentences) and to write code, in what we call a <strong>code chunk</strong>.</p>
 <blockquote class="blockquote">
 <p>When you see a numbered list item like the one below, these are directions for you follow. So do what is says!</p>
 </blockquote>
@@ -244,15 +245,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In Quarto files, the results of the code in each code chunk will print below the chunk, allowing you to quickly see the results of your work. This allows us to intersperse our prose notes and explanations in between our code. The merits of this will hopefully become apparent as we work on this throughout the day.</p>
 <p>You create a code chunk by typing <code>ctrl+alt+i</code> (<code>cmd+option+i</code> on a Mac) and you write your <code>code</code> in between the first and last lines of the code chunk. All your comments, questions, thoughts, and notes are written outside of the code chunks are written in Markdown, a documentation language that reads well as text but converts easily to HTML and other outputs. If you don’t know it, don’t worry about it for now … it’s really just text.</p>
+<ol type="1">
+<li>Create a new code chunk after these directions using the keyboard commands.</li>
+<li>Type in the object <code>message</code> and then run the chunk.</li>
+</ol>
+<p>The “Hello, World!” message will print out again because that text was saved into an object named <code>message</code>. We’ll talk about objects next.</p>
+<p>We can usually just type an object name and it will print to the console. But we sometimes use <code>print()</code> to make sure the object prints to the console, even if it’s not the last line of code in a chunk.</p>
 </section>
 <section id="part-two-terminology" class="level2">
 <h2 class="anchored" data-anchor-id="part-two-terminology">Part Two: Terminology</h2>
 <p>Some important terminology has come up already:</p>
 <ul>
-<li><strong>Notebook</strong>: a certain type of R file that allows us to write text and code together in the same document. We are using Quarto Documents, which are a kind of notebook.</li>
-<li><strong>code chunk</strong>: created by typing <code>ctrl+alt+i</code> (<code>cmd+option+i</code> on a Mac), type your code inside code chunks.</li>
-<li><strong>environment</strong>: this is basically your workspace memory for every R session. It’s empty until you start storing information in objects.</li>
-<li><strong>objects</strong> and <strong>variables</strong>: While technically different things, people sometimes use the term <strong>object</strong> and <strong>variable</strong> interchangeably. An <strong>object</strong> is something stored into memory within an R session. Objects can be data, functions or anything we can reference later. A <strong>variable</strong> is the name objects. Think of variables like nametags and objects like the actual items they’re describing. <strong>Variable</strong> is also the term R uses for the names of columns inside data.</li>
+<li><strong>notebook</strong>: certain type of R file that allows us to write text and code together in the same document. We are using Quarto Documents, which are a kind of interactive notebook.</li>
+<li><strong>code chunk</strong>: created by typing <code>ctrl+alt+i</code> (<code>cmd+option+i</code> on a Mac). Type your code inside code chunks.</li>
+<li><strong>Environment</strong>: this is basically your workspace memory for every R session. It’s empty until you start storing information in objects. You should see an object named <code>message</code> in your environment now.</li>
+<li><strong>objects</strong> and <strong>variables</strong>: While technically different things, people sometimes use the term <strong>object</strong> and <strong>variable</strong> interchangeably. An <strong>object</strong> is something stored into memory within an R session. Objects can be data, functions or anything we can reference later. A <strong>variable</strong> is the name of an object. Think of variables like nametags and objects like the actual items they’re describing. <strong>Variable</strong> is also the term R uses for the names of columns inside data.</li>
 </ul>
 <p>For example, the following code stores the word “spaghetti” into an object named “x”, using the assignment operator <code>&lt;-</code>, and then prints the contents of that object to the console below the code chunk.</p>
 <ol type="1">
@@ -261,7 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"spaghetti"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "spaghetti"</code></pre>
 </div>
@@ -269,7 +276,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You can also use keyboard commands to run code: <code>ctrl+Enter</code> (or <code>cmd-Return</code> on a Mac) will run a line of code you are on or have selected. <code>ctrl+Shift+Enter</code> (or <code>cmd-Shift-Return</code> on Mac) will run all the code within a chunk.</p>
 <p>In the example above, “spaghetti” is a string of text, or characters. You can also store numbers in objects (which do not require double quotes):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
 </div>
 <div class="callout callout-style-simple callout-none no-icon">
 <div class="callout-body d-flex">
@@ -280,7 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>While you can name variables whatever you want, there are some rules and conventions:</p>
 <ul>
 <li>You can’t start a variable name with a number.</li>
-<li>Variable names must be a single unit with no spaces. Convention is to use and underscore <code>_</code> to separate terms in a name.</li>
+<li>Variable names must be a single unit with no spaces. Convention is to use an underscore <code>_</code> to separate terms in a name.</li>
 <li>Use short variable names that describe what the object represents. Don’t be generic. If your variable stores a number value of someone’s age, Use <code>age</code> not <code>my_var</code>.</li>
 </ul>
 </div>
@@ -302,14 +314,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use the green arrow or the keyboard commands to run the code chunk below.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>food_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"spagetti sauce"</span>, <span class="st">"noodles"</span>, <span class="st">"parmesan"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>numbs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>food_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>food_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"spagetti sauce"</span>, <span class="st">"noodles"</span>, <span class="st">"parmesan"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>numbs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>food_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "spagetti sauce" "noodles"        "parmesan"      </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>numbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>numbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3</code></pre>
 </div>
@@ -321,34 +333,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use the green arrow to run the chunk below and see the sum of x and y.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(a,b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(a,b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
 <ul>
-<li><strong>package</strong>: a set of features and functions that are not a part of base R, but that you can add to R to increase its functionality. You install packages once by using the <code>install.packages()</code> function. Then every time you want to use a package (such as tidyverse) in your file, you load it into your environment using the <code>library()</code> function. All the necessary packages for this class have already been installed.</li>
-<li><strong>pipe</strong>: a pipe moves information from one function to the next. There are two ways to write a pipe (long story) but they work the same: <code>|&gt;</code> or <code>%&gt;%</code>. A shortcut for typing it is <code>ctrl+shift+m</code> (<code>cmd+option+m</code> on a Mac).</li>
+<li><strong>package</strong>: a set of features and functions that are not a part of base R, but that you can add to R to increase its functionality. You install packages on your computer once by using the <code>install.packages()</code> function. Then every time you want to use a package (such as tidyverse) in your file, you load it into your environment using the <code>library()</code> function. All the necessary packages for this class have already been installed on your virtual machine.</li>
+<li><strong>pipe</strong>: a pipe moves information from one function to the next. There are two ways to write a pipe (long story) but they work the same: <code>|&gt;</code> or <code>%&gt;%</code>. A shortcut for typing it is <code>ctrl+shift+m</code> (<code>cmd+shift+m</code> on a Mac).</li>
 </ul>
 <ol type="1">
 <li>Run the code chunk below to show how to use the <code>typeof()</code> function to find the data type of “food_list”. The second line does the same thing, but it is moving our object <strong>food_list</strong> into the function using using the pipe.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(food_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(food_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>food_list <span class="sc">|&gt;</span> <span class="fu">typeof</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>food_list <span class="sc">|&gt;</span> <span class="fu">typeof</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
 </div>
+<p>As we go through the day you’ll hopefully see why pipes make our code much easier to understand.</p>
 </section>
 <section id="part-three-where-the-data-goes" class="level2">
 <h2 class="anchored" data-anchor-id="part-three-where-the-data-goes">Part Three: Where the data goes</h2>
-<p>The key to understanding a programming language like R is to understand how <strong>information is passed around</strong>. For the sake of this class, let’s refer to information as <strong>data</strong>, although it won’t always be tabular. Data can be stored in an object or printed to the <strong>console</strong> (which is directly below a code chunk in R Notebooks). Data stored in an object shows up in the environment, and can be referred to later in your script.</p>
+<p>The key to understanding a programming language like R is to understand how <strong>information is passed around</strong>. For the sake of this class, let’s refer to information as <strong>data</strong>, although it won’t always be tabular. Data can be stored in an object or printed to the <strong>console</strong> (which is directly below a code chunk in our notebooks). Data stored in an object shows up in the Environment, and can be referred to later in your script.</p>
 <p>Additionally, data can be passed (or <strong>piped</strong>) through functions that filter, sort, aggregate, and/or mutate it in some way. But it will always end up either printing to the console or being stored in a variable.</p>
 </section>
 <section id="part-four-coming-together-with-quarto" class="level2">
@@ -360,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This will open a web page either within RStudio’s “Viewer” pane, or in a separate web browser window. Look through this page and compare how your text and code looks in your Quarto document vs what is displayed on the web page.</p>
 <p>(If you got an error when you rendered, raise your hand so someone can help troubleshoot it.)</p>
 <p>You can use Quarto and Markdown to create websites, books, slideshows and more.</p>
-<p>Let’s learn some more code. Save and close this document, then open the <code>02-tidyverse.qmd</code> file.</p>
+<p>Let’s learn some more code. Save and close this document by clicking on the small x after it’s name, then open the <code>02-tidyverse.qmd</code> file by clicking on it in your Files pane.</p>
 
 
 </section>

@@ -20,6 +20,8 @@ If you see items in an ordered list that start with numbers, that is an indicati
 1. An item like this is a direction. Do what it says.
 2. This would be the next direction.
 
+We'll talk more about why we use Markdown and Quarto in a bit.
+
 ## The story so far ...
 
 We are assuming at this point that you have ALREADY done these things:
@@ -33,13 +35,13 @@ If all that is true, then you are running a "virtual machine" in your browser th
 
 RStudio is your dashboard for writing R code. Open files will show up in the upper-left quadrant of RStudio.
 
-The upper-right quadrant has several tabs, the first of which is **environment**: if you store any information in objects (such as a table of data), they will show up there.
+The upper-right quadrant has several tabs, the first of which is **Environment**: Code objects stored in memory (such as a table of data), will show up there.
 
-The lower-right quadrant also has several tabs, the first of which is Files: it shows what files exist in your current working directory, which is this workshop folder. Among those files are ones that end with `.qmd`, which are Quarto files we will edit. Once opened, they appear in the upper-left quadrant.
+The lower-right quadrant also has several tabs, the first of which is **Files**: it shows what files exist in your current working directory, which is this workshop folder. Among those files are ones that end with `.qmd`, which are Quarto files we will edit. Once opened, they appear in the upper-left quadrant.
 
 In the lower-left, you'll see the **Console**. This will reflect all the R code you run, but we don't do much with it when we're working in Quarto files. There is also **Terminal**, which is a way to interface your computer through written commands. We won't be using that today, but if you continue with this type of work you likely will.
 
-I encourage writing R code within **Quarto Document** files (.qmd) because it enable syou to both write comments (like these sentences) and to write code, in what we call a **code chunk**.
+I encourage writing R code within **Quarto Document** files (.qmd) because they enable you to both write comments (like these sentences) and to write code, in what we call a **code chunk**.
 
 > When you see a numbered list item like the one below, these are directions for you follow. So do what is says!
 
@@ -55,14 +57,24 @@ In Quarto files, the results of the code in each code chunk will print below the
 
 You create a code chunk by typing `ctrl+alt+i` (`cmd+option+i` on a Mac) and you write your `code` in between the first and last lines of the code chunk. All your comments, questions, thoughts, and notes are written outside of the code chunks are written in Markdown, a documentation language that reads well as text but converts easily to HTML and other outputs. If you don't know it, don't worry about it for now ... it's really just text.
 
+1. Create a new code chunk after these directions using the keyboard commands.
+2. Type in the object `message` and then run the chunk.
+
+
+
+
+The "Hello, World!" message will print out again because that text was saved into an object named `message`. We'll talk about objects next.
+
+We can usually just type an object name and it will print to the console. But we sometimes use `print()` to make sure the object prints to the console, even if it's not the last line of code in a chunk.
+
 ## Part Two: Terminology
 
 Some important terminology has come up already:
 
--   **Notebook**: a certain type of R file that allows us to write text and code together in the same document. We are using Quarto Documents, which are a kind of notebook.
--   **code chunk**: created by typing `ctrl+alt+i` (`cmd+option+i` on a Mac), type your code inside code chunks.
--   **environment**: this is basically your workspace memory for every R session. It's empty until you start storing information in objects.
--   **objects** and **variables**: While technically different things, people sometimes use the term **object** and **variable** interchangeably. An **object** is something stored into memory within an R session. Objects can be data, functions or anything we can reference later. A **variable** is the name objects. Think of variables like nametags and objects like the actual items they're describing. **Variable** is also the term R uses for the names of columns inside data.
+-   **notebook**: certain type of R file that allows us to write text and code together in the same document. We are using Quarto Documents, which are a kind of interactive notebook.
+-   **code chunk**: created by typing `ctrl+alt+i` (`cmd+option+i` on a Mac). Type your code inside code chunks.
+-   **Environment**: this is basically your workspace memory for every R session. It's empty until you start storing information in objects. You should see an object named `message` in your environment now.
+-   **objects** and **variables**: While technically different things, people sometimes use the term **object** and **variable** interchangeably. An **object** is something stored into memory within an R session. Objects can be data, functions or anything we can reference later. A **variable** is the name of an object. Think of variables like nametags and objects like the actual items they're describing. **Variable** is also the term R uses for the names of columns inside data.
 
 For example, the following code stores the word "spaghetti" into an object named "x", using the assignment operator `<-`, and then prints the contents of that object to the console below the code chunk.
 
@@ -71,7 +83,7 @@ For example, the following code stores the word "spaghetti" into an object named
 ```{r}
 x <- "spaghetti"
 
-print(x)
+x
 ```
 
 You can also use keyboard commands to run code: `ctrl+Enter` (or `cmd-Return` on a Mac) will run a line of code you are on or have selected. `ctrl+Shift+Enter` (or `cmd-Shift-Return` on Mac) will run all the code within a chunk.
@@ -80,13 +92,15 @@ In the example above, "spaghetti" is a string of text, or characters. You can al
 
 ```{r}
 y <- 3
+
+y
 ```
 
 ::: callout
 While you can name variables whatever you want, there are some rules and conventions:
 
 - You can't start a variable name with a number.
-- Variable names must be a single unit with no spaces. Convention is to use and underscore `_` to separate terms in a name.
+- Variable names must be a single unit with no spaces. Convention is to use an underscore `_` to separate terms in a name.
 - Use short variable names that describe what the object represents. Don't be generic. If your variable stores a number value of someone's age, Use `age` not `my_var`.
 :::
 
@@ -119,8 +133,8 @@ b <- 2
 sum(a,b)
 ```
 
--   **package**: a set of features and functions that are not a part of base R, but that you can add to R to increase its functionality. You install packages once by using the `install.packages()` function. Then every time you want to use a package (such as tidyverse) in your file, you load it into your environment using the `library()` function. All the necessary packages for this class have already been installed.
--   **pipe**: a pipe moves information from one function to the next. There are two ways to write a pipe (long story) but they work the same: `|>` or `%>%`. A shortcut for typing it is `ctrl+shift+m` (`cmd+option+m` on a Mac).
+-   **package**: a set of features and functions that are not a part of base R, but that you can add to R to increase its functionality. You install packages on your computer once by using the `install.packages()` function. Then every time you want to use a package (such as tidyverse) in your file, you load it into your environment using the `library()` function. All the necessary packages for this class have already been installed on your virtual machine.
+-   **pipe**: a pipe moves information from one function to the next. There are two ways to write a pipe (long story) but they work the same: `|>` or `%>%`. A shortcut for typing it is `ctrl+shift+m` (`cmd+shift+m` on a Mac).
 
 1. Run the code chunk below to show how to use the `typeof()` function to find the data type of "food_list". The second line does the same thing, but it is moving our object **food_list** into the function using using the pipe.
 
@@ -130,9 +144,11 @@ typeof(food_list)
 food_list |> typeof()
 ```
 
+As we go through the day you'll hopefully see why pipes make our code much easier to understand.
+
 ## Part Three: Where the data goes
 
-The key to understanding a programming language like R is to understand how **information is passed around**. For the sake of this class, let's refer to information as **data**, although it won't always be tabular. Data can be stored in an object or printed to the **console** (which is directly below a code chunk in R Notebooks). Data stored in an object shows up in the environment, and can be referred to later in your script.
+The key to understanding a programming language like R is to understand how **information is passed around**. For the sake of this class, let's refer to information as **data**, although it won't always be tabular. Data can be stored in an object or printed to the **console** (which is directly below a code chunk in our notebooks). Data stored in an object shows up in the Environment, and can be referred to later in your script.
 
 Additionally, data can be passed (or **piped**) through functions that filter, sort, aggregate, and/or mutate it in some way. But it will always end up either printing to the console or being stored in a variable.
 
@@ -148,6 +164,6 @@ This will open a web page either within RStudio's "Viewer" pane, or in a separat
 
 You can use Quarto and Markdown to create websites, books, slideshows and more.
 
-Let's learn some more code. Save and close this document, then open the `02-tidyverse.qmd` file.
+Let's learn some more code. Save and close this document by clicking on the small x after it's name, then open the `02-tidyverse.qmd` file by clicking on it in your Files pane.
 
 
